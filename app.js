@@ -4,7 +4,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const userRouter = require("./src/routes/user/new/main.js");
-const bodyParser = require("body-parser");
 // const messageRouter = require("./src/routes/messages/main.js");
 
 const app = express();
@@ -19,11 +18,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-
-// parse application/json
-app.use(bodyParser.json())
 
 // app.use('/message/', messageRouter);
 app.use('/user', userRouter);
