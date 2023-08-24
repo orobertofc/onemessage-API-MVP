@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const userRouter = require("./src/routes/user/new/main.js");
 // const messageRouter = require("./src/routes/messages/main.js");
+const tokenRouter = require("./src/routes/token/refresh.js");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/token', tokenRouter);
 
 // app.use('/message/', messageRouter);
 app.use('/user', userRouter);
