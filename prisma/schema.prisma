@@ -2,7 +2,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") // Set your PostgreSQL database connection URL here
+  url      = env("POSTGRES_URL") // Set PostgreSQL database connection URL here
 }
 
 model User {
