@@ -1,9 +1,7 @@
 const { v4: uuidv4 } = require("uuid");
 const { generateAccessToken, generateRefreshToken } = require("../../../JWT/create_token/create_token");
-const {$transaction} = require("prisma/prisma-client/index-browser");
 const userToDb = require("./user_to_db");
-const tokenToMongoDB = require("../../../JWT/create_token/token_to_mongoDB");
-
+require("../../../JWT/create_token/token_to_mongoDB");
 async function newUser(user_name) {
   try {
     const public_id = uuidv4();
