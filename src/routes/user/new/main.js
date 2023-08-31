@@ -1,7 +1,6 @@
-const {Router, urlencoded} = require("express");
+const {Router} = require("express");
 const new_user = require("../../../controllers/users/new/main.js");
-const cookieParser = require('cookie-parser');
-const {json} = require("body-parser");
+
 
 const userRouter = Router();
 
