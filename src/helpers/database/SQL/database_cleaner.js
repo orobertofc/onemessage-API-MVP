@@ -59,7 +59,7 @@ async function deleteAccount(userId) {
 }
 
 // Run the script initially to delete inactive accounts
-deleteInactiveAccounts();
+await deleteInactiveAccounts();
 
 // Schedule the script to run every hour
 cron.schedule('0 * * * *', async () => {

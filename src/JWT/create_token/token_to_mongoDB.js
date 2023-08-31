@@ -9,9 +9,7 @@ async function tokenToMongoDB(tokenObject, collection_name) {
 
     const databaseInstance = client.db(process.env.MONGO_DATABASE_NAME);
     const collection = databaseInstance.collection(collection_name);
-    const result = await collection.insertOne(tokenObject);
-
-    return result.insertedId;
+    await collection.insertOne(tokenObject);
 
   } catch (error) {
     throw new Error(error.message);

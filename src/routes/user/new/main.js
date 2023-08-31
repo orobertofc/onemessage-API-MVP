@@ -1,16 +1,9 @@
-const express = require('express');
+const {Router, urlencoded} = require("express");
 const new_user = require("../../../controllers/users/new/main.js");
 const cookieParser = require('cookie-parser');
-const {json, urlencoded} = require("body-parser");
+const {json} = require("body-parser");
 
-const userRouter = express.Router();
-
-// parse cookies
-userRouter.use(cookieParser());
-// parse application/x-www-form-urlencoded
-userRouter.use(urlencoded({ extended: false }))
-// parse application/json
-userRouter.use(json())
+const userRouter = Router();
 
 userRouter.post('/new', async function(req, res) {
   try {
@@ -28,7 +21,7 @@ userRouter.post('/new', async function(req, res) {
       return res.status(400).json({ "error": "user_name must be less than 20 characters long" });
     }
 
-    const tokens = await new_user(user_name);
+    const [refreshToken, accessToken, id] = await new_user(user_name);
 
     const auth_cookie_options = {
       expires: new Date(Date.now() + 60 * 60 * 1000), // 1 hour (in milliseconds)
@@ -42,15 +35,13 @@ userRouter.post('/new', async function(req, res) {
       secure: true
     };
 
-    if (Array.isArray(tokens)) {
-      res.cookie("auth_DO_NOT_SHARE_OR_DELETE", tokens[0], auth_cookie_options);
-      res.cookie("refresh_DO_NOT_SHARE_OR_DELETE", tokens[1], refresh_cookie_options);
-      return res.status(200).json("Account created");
-    }
+    res.cookie("accessToken", accessToken, auth_cookie_options);
+    res.cookie("refreshToken", refreshToken, refresh_cookie_options);
+    return res.status(200).json({"user id": id});
 
   } catch (error) {
     console.error(error.message);
-    return res.status(500).json({ "error": "Internal server error" });
+    return res.status(500).json({ "error": error.message });
   }
 });
 

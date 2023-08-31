@@ -1,5 +1,4 @@
 const { v4: uuidv4 } = require("uuid");
-const { generateAccessToken, generateRefreshToken } = require("../../../JWT/create_token/create_token");
 const userToDb = require("./user_to_db");
 require("../../../JWT/create_token/token_to_mongoDB");
 const getToken = require("../../../JWT/get_token");
