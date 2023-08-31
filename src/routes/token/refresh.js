@@ -1,6 +1,5 @@
-const {Router, urlencoded} = require("express");
+const {Router} = require("express");
 const getToken = require("../../JWT/get_token");
-const cookieParser = require("cookie-parser");
 
 const tokenRouter = Router();
 
