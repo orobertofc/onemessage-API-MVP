@@ -2,29 +2,27 @@ const { v4: uuidv4 } = require("uuid");
 const { generateAccessToken, generateRefreshToken } = require("../../../JWT/create_token/create_token");
 const userToDb = require("./user_to_db");
 require("../../../JWT/create_token/token_to_mongoDB");
-async function newUser(user_name) {
+const getToken = require("../../../JWT/get_token");
+async function newUser(userName) {
   try {
-    const public_id = uuidv4();
-    const private_id = uuidv4();
+    const id = uuidv4();
 
     const user = {
-      user_name: user_name,
-      public_id: public_id,
-      private_id: private_id,
+      name: userName,
+      id: id,
     };
 
-    const [access_token, refresh_token] = await Promise.all([
-      generateAccessToken(user),
-      generateRefreshToken(user.private_id),
-    ]);
+    let [, [accessToken, refreshToken]] = await Promise.all([
+      userToDb(user),
+      getToken(false, false, user)
+    ])
 
-    await userToDb(user);
+    return [accessToken, refreshToken, id];
 
-    return [access_token, refresh_token];
-
-    } catch (error) {
-      throw new Error(error.message);
-    }
+  } catch (error) {
+    throw new Error(error.message);
   }
+}
 
 module.exports = newUser;
+

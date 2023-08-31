@@ -3,47 +3,54 @@ const tokenToMongoDB = require("./token_to_mongoDB");
 
 async function generateAccessToken(payload) {
   try {
-
     const user = {
-      username: payload.user_name,
-      public_id: payload.public_id,
-      private_id: payload.private_id,
+      userName: payload.userName,
+      id: payload.ID
+    };
+
+    const JWTAccessSecret = process.env.JWT_ACCESS_SECRET;
+    const accessToken = jwt.sign(user, JWTAccessSecret, { expiresIn: '1h' });
+
+    if (accessToken === undefined) {
+      throw new Error("Access token generation failed");
     }
 
-    const JWT_access_secret = process.env.JWT_ACCESS_SECRET;
-    const accessToken = jwt.sign(user, JWT_access_secret, { expiresIn: '1h' });
-
-      await tokenToMongoDB({
-        private_id: user.private_id,
-        token: accessToken,
-      }, process.env.MONGO_ACCESS_TOKEN_COLLECTION);
+    await tokenToMongoDB({
+      ID: user.id,
+      token: accessToken,
+    }, process.env.MONGO_ACCESS_TOKEN_COLLECTION);
 
     return accessToken;
-
-  } catch (error) {
-    throw new Error(`Error generating access token: ${error.message}`);
-  }
-
-}
-
-async function generateRefreshToken(payload) {
-  try {
-    const JWT_refresh_secret = process.env.JWT_REFRESH_SECRET;
-    const refreshToken = jwt.sign({ private_id: payload }, JWT_refresh_secret, { expiresIn: '1h' });
-
-    await tokenToMongoDB({
-      private_id: payload,
-      token: refreshToken
-    } , process.env.MONGO_REFRESH_TOKEN_COLLECTION);
-
-    return refreshToken;
-
   } catch (error) {
     throw new Error(error.message);
   }
 }
 
+async function generateRefreshToken(payload) {
+  try {
+    const refreshTokenPayload = {
+      id: payload
+    };
+
+    const JWTRefreshSecret = process.env.JWT_REFRESH_SECRET;
+    const refreshToken = jwt.sign(refreshTokenPayload, JWTRefreshSecret, { expiresIn: '1h' });
+
+    if (refreshToken === undefined) {
+      throw new Error("Refresh token generation failed");
+    }
+
+    await tokenToMongoDB({
+      ID: refreshTokenPayload.id,
+      token: refreshToken,
+    }, process.env.MONGO_REFRESH_TOKEN_COLLECTION);
+
+    return refreshToken;
+  } catch (error) {
+      throw new Error(error.message);
+  }
+}
+
 module.exports = {
   generateAccessToken,
-  generateRefreshToken
-};
+  generateRefreshToken,
+}

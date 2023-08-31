@@ -6,39 +6,38 @@ datasource db {
 }
 
 model User {
-  user_id         Int            @id @default(autoincrement())
-  user_name       String
-  private_id      String         @unique
-  public_id       String         @unique
-  profile_picture String?
-  last_seen       DateTime?
-  sent_messages   Message[]      @relation("sender")
-  conversations1  Conversation[] @relation("user1")
-  conversations2  Conversation[] @relation("user2")
+  databaseID     Int            @id @default(autoincrement())
+  id             String         @unique
+  name           String
+  profilePicture String?
+  lastSeen       DateTime?
+  sentMessages   Message[]      @relation("sender")
+  conversations1 Conversation[] @relation("user1")
+  conversations2 Conversation[] @relation("user2")
 }
 
 model Conversation {
-  conversation_id Int       @id @default(autoincrement())
-  user1_id        Int
-  user2_id        Int
-  last_message_at DateTime?
+  conversationId Int       @id @default(autoincrement())
+  user1Id        String
+  user2Id        String
+  lastMessageAt  DateTime?
 
-  user1 User @relation("user1", fields: [user1_id], references: [user_id])
-  user2 User @relation("user2", fields: [user2_id], references: [user_id])
+  user1 User @relation("user1", fields: [user1Id], references: [id])
+  user2 User @relation("user2", fields: [user2Id], references: [id])
 
   messages Message[]
 }
 
 model Message {
-  message_id      Int      @id @default(autoincrement())
-  conversation_id Int
-  sender_id       Int
-  content         String
-  timestamp       DateTime
-  is_read         Boolean  @default(false)
+  messageId      Int      @id @default(autoincrement())
+  conversationId Int
+  senderId       String
+  content        String
+  timestamp      DateTime
+  isRead         Boolean  @default(false)
 
-  conversation Conversation @relation(fields: [conversation_id], references: [conversation_id])
-  sender       User         @relation("sender", fields: [sender_id], references: [user_id])
+  conversation Conversation @relation(fields: [conversationId], references: [conversationId])
+  sender       User         @relation("sender", fields: [senderId], references: [id])
 }
 
 generator client {

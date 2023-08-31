@@ -1,20 +1,21 @@
 const { PrismaClient } = require('@prisma/client')
 
-async function userToDb(user) {
+async function saveUserToDb(user) {
   const prisma = new PrismaClient();
   try {
     await prisma.user.create({
       data: {
-        user_name: user.user_name,
-        public_id: user.public_id,
-        private_id: user.private_id,
-        last_seen: new Date(),
+        name: user.name,
+        id: user.id,
+        lastSeen: new Date(),
       },
     });
 
   } catch (error) {
     throw new Error(error.message);
+  } finally {
+    prisma.$disconnect()
   }
 }
 
-module.exports = userToDb;
+module.exports = saveUserToDb;
