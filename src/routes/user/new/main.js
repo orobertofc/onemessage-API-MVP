@@ -22,17 +22,17 @@ userRouter.post('/new', async function(req, res) {
 
     const [refreshToken, accessToken, id] = await new_user(user_name);
 
-    const auth_cookie_options = {
-      expires: new Date(Date.now() + 60 * 60 * 1000), // 1 hour (in milliseconds)
-      httpOnly: true,
-      secure: true
-    }
+const auth_cookie_options = {
+  expires: new Date(Date.now() + Number(process.env.ACCESS_TOKEN_EXPIRATION)),
+  httpOnly: true,
+  secure: true
+}
 
-    const refresh_cookie_options = {
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours (in milliseconds)
-      httpOnly: true,
-      secure: true
-    };
+const refresh_cookie_options = {
+  expires: new Date(Date.now() + Number(process.env.REFRESH_TOKEN_EXPIRATION)),
+  httpOnly: true,
+  secure: true
+};
 
     res.cookie("accessToken", accessToken, auth_cookie_options);
     res.cookie("refreshToken", refreshToken, refresh_cookie_options);

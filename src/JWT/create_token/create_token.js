@@ -8,8 +8,10 @@ async function generateAccessToken(payload) {
       id: payload.ID
     };
 
+    const token_expiration = Math.floor(Number(process.env.ACCESS_TOKEN_EXPIRATION) / 1000);
+
     const JWTAccessSecret = process.env.JWT_ACCESS_SECRET;
-    const accessToken = jwt.sign(user, JWTAccessSecret, { expiresIn: '1h' });
+    const accessToken = jwt.sign(user, JWTAccessSecret, { expiresIn: token_expiration });
 
     if (accessToken === undefined) {
       throw new Error("Access token generation failed");
@@ -32,8 +34,10 @@ async function generateRefreshToken(payload) {
       id: payload
     };
 
+    const token_expiration = Math.floor(Number(process.env.REFRESH_TOKEN_EXPIRATION) / 1000);
+
     const JWTRefreshSecret = process.env.JWT_REFRESH_SECRET;
-    const refreshToken = jwt.sign(refreshTokenPayload, JWTRefreshSecret, { expiresIn: '1h' });
+    const refreshToken = jwt.sign(refreshTokenPayload, JWTRefreshSecret, { expiresIn: token_expiration });
 
     if (refreshToken === undefined) {
       throw new Error("Refresh token generation failed");
