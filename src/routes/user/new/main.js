@@ -36,8 +36,7 @@ const {authCookieOptions, refreshCookieOptions} = require("../../COOKIE_SETTINGS
  */
 userRouter.post('/new', async function(req, res) {
   try {
-    const userName = req.body.user_name;
-    const password = req.body.password;
+    const { userName, password } = req.body;
 
     if (!userName || !password) {
       return res.status(400).json({ "error": "Missing parameters" });
@@ -53,18 +52,6 @@ userRouter.post('/new', async function(req, res) {
     }
 
     const [refreshToken, accessToken, id] = await new_user(userName, hashedPassword);
-
-    const authCookieOptions = {
-      expires: new Date(Date.now() + Number(process.env.ACCESS_TOKEN_EXPIRATION)),
-      httpOnly: true,
-      secure: true
-    }
-
-    const refreshCookieOptions = {
-      expires: new Date(Date.now() + Number(process.env.REFRESH_TOKEN_EXPIRATION)),
-      httpOnly: true,
-      secure: true
-    };
 
     res.cookie("accessToken", accessToken, authCookieOptions);
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);
