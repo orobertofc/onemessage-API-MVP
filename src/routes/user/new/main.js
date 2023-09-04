@@ -1,8 +1,7 @@
 const userRouter = require("express").Router();
 const new_user = require("../../../controllers/users/new/main.js");
 const hash512 = require("../../../helpers/hash512");
-
-
+const {authCookieOptions, refreshCookieOptions} = require("../../COOKIE_SETTINGS/cookie_settings");
 
 /**
  * Handles a POST request to create a new user.
