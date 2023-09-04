@@ -1,0 +1,31 @@
+{
+  "name": "chat-room-api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node bin/www.js",
+    "build": "",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "~1.4.4",
+    "debug": "~4.3.4",
+    "express": "^4.18.2",
+    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^9.0.1",
+    "mongodb": "^5.8.0",
+    "morgan": "~1.9.1",
+    "node-cron": "^3.0.2",
+    "pug": "^2.0.4",
+    "redis": "^4.6.7",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.6.3",
+    "jest-mock-extended": "^3.0.5",
+    "prisma": "^5.0.0"
+  }
+}
