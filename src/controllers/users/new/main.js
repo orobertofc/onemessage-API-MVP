@@ -11,7 +11,7 @@ const getToken = require("../../../JWT/get_token");
  *                           refresh token, and user ID.
  * @throws {Error} - If an error occurs while creating the new user.
  */
-async function newUser(userName) {
+async function newUser(userName, password) {
   try {
     const id = uuidv4();
 
@@ -21,7 +21,7 @@ async function newUser(userName) {
     };
 
     let [, [accessToken, refreshToken]] = await Promise.all([
-      userToDb(user),
+      userToDb(user, password),
       getToken(false, false, user)
     ])
 
