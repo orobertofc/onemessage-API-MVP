@@ -39,3 +39,5 @@ messageRouter.post('/conversation/new', async function(req, res) {
     res.status(200).json({message: "Message sent"});
   }
 })
+
+module.exports = messageRouter;
