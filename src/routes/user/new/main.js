@@ -1,9 +1,8 @@
-const {Router} = require("express");
+const userRouter = require("express").Router();
 const new_user = require("../../../controllers/users/new/main.js");
 const hash512 = require("../../../helpers/hash512");
 
 
-const userRouter = Router();
 
 /**
  * Handles a POST request to create a new user.

@@ -1,7 +1,6 @@
-const { Router } = require("express")
+const messageRouter = require("express").Router();
 const newConversation = require("../../../controllers/conversations/new/main.js")
 
-const messageRouter = Router()
 
 /**
  * This endpoint allows a user to create a new conversation.

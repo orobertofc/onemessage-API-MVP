@@ -1,7 +1,5 @@
-const {Router} = require("express");
+const tokenRouter = require("express").Router();
 const getToken = require("../../JWT/get_token");
-
-const tokenRouter = Router();
 
 /**
  * Express middleware handler for the POST '/refresh' route of the tokenRouter object.

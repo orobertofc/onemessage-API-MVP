@@ -3,9 +3,9 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const userRouter = require("./src/routes/user/new/main.js");
+const userRouter = require("./src/routes/user/router.js");
 // const messageRouter = require("./src/routes/messages/main.js");
-const tokenRouter = require("./src/routes/token/refresh.js");
+const tokenRouter = require("./src/routes/token/router");
 const keepAliveRouter = require("./src/routes/keep alive/keep_alive.js");
 
 const app = express();
