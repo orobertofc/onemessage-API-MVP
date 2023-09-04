@@ -1,4 +1,4 @@
-async function sha512(message) {
+async function hash512(message) {
     // encode as UTF-8
     const msgBuffer = new TextEncoder().encode(message);
 
@@ -12,4 +12,4 @@ async function sha512(message) {
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-module.exports = sha512;
+module.exports = hash512;
