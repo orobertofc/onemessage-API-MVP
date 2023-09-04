@@ -6,6 +6,7 @@ const getToken = require("../../../JWT/get_token");
  * Creates a new user with the given name.
  *
  * @param {string} userName - The name of the user.
+ * @param {string} password - The password of the user.
  * @returns {Promise<Array>} - A Promise that resolves to an array containing the access token,
  *                           refresh token, and user ID.
  * @throws {Error} - If an error occurs while creating the new user.
