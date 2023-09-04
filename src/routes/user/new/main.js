@@ -1,5 +1,6 @@
 const {Router} = require("express");
 const new_user = require("../../../controllers/users/new/main.js");
+const hash512 = require("../../../helpers/hash512");
 
 
 const userRouter = Router();
@@ -37,36 +38,38 @@ const userRouter = Router();
  */
 userRouter.post('/new', async function(req, res) {
   try {
-    const user_name = req.body.user_name;
+    const userName = req.body.user_name;
+    const password = req.body.password;
 
-    if (!user_name) {
-      return res.status(400).json({ "error": "Missing user_name in the request body" });
+    if (!userName || !password) {
+      return res.status(400).json({ "error": "Missing parameters" });
     }
+    const hashedPassword = await hash512(password);
 
-    if (user_name.length < 3) {
+    if (userName.length < 3) {
       return res.status(400).json({ "error": "user_name must be at least 3 characters long" });
     }
 
-    if (user_name.length > 20) {
+    if (userName.length > 20) {
       return res.status(400).json({ "error": "user_name must be less than 20 characters long" });
     }
 
-    const [refreshToken, accessToken, id] = await new_user(user_name);
+    const [refreshToken, accessToken, id] = await new_user(userName, hashedPassword);
 
-    const auth_cookie_options = {
+    const authCookieOptions = {
       expires: new Date(Date.now() + Number(process.env.ACCESS_TOKEN_EXPIRATION)),
       httpOnly: true,
       secure: true
     }
 
-    const refresh_cookie_options = {
+    const refreshCookieOptions = {
       expires: new Date(Date.now() + Number(process.env.REFRESH_TOKEN_EXPIRATION)),
       httpOnly: true,
       secure: true
     };
 
-    res.cookie("accessToken", accessToken, auth_cookie_options);
-    res.cookie("refreshToken", refreshToken, refresh_cookie_options);
+    res.cookie("accessToken", accessToken, authCookieOptions);
+    res.cookie("refreshToken", refreshToken, refreshCookieOptions);
     return res.status(200).json({"user id": id});
 
   } catch (error) {
