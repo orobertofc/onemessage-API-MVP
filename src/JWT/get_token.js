@@ -25,7 +25,7 @@ async function getToken(oldRefreshToken, oldAccessToken, newUser) {
     if (oldRefreshToken !== false && oldAccessToken !== false) {
       const refreshPayload = jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_SECRET);
       user = await checkUserExists(refreshPayload.id);
-      await deleteTokensFromDatabase(oldRefreshToken, oldAccessToken);
+      deleteTokensFromDatabase(oldRefreshToken, oldAccessToken);
     }
 
     if (newUser !== false) {

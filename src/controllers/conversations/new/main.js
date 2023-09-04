@@ -17,17 +17,24 @@ async function newConversation(senderAccessToken, receiverID, message) {
   try {
     const senderExtracted = jwt.verify(senderAccessToken, process.env.JWT_ACCESS_SECRET);
 
+    const sender = {
+      userName: senderExtracted.userName,
+      id: senderExtracted.id
+    }
+
     const [senderValid, receiverValid] = await Promise.all([
-      checkUserValid(senderExtracted.privateId, "private"),
-      checkUserValid(receiverID, "public")
+      checkUserValid(sender.id),
+      checkUserValid(receiverID)
     ]);
 
     if (senderValid === true && receiverValid === true) {
       // Create conversation
-      await startConversation(senderExtracted.privateId, receiverID, message);
+      await startConversation(sender.id, receiverID, message);
     }
 
   } catch (error) {
     throw new Error(error.message);
   }
 }
+
+module.exports = newConversation;

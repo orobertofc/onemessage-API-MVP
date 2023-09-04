@@ -27,7 +27,7 @@ async function generateAccessToken(payload) {
     }
 
     await tokenToMongoDB({
-      ID: user.id,
+      id: user.id,
       token: accessToken,
     }, process.env.MONGO_ACCESS_TOKEN_COLLECTION);
 
@@ -37,6 +37,13 @@ async function generateAccessToken(payload) {
   }
 }
 
+/**
+ * Generates a refresh token for the given payload.
+ *
+ * @param {string} payload - The payload used to generate the refresh token.
+ * @return {Promise<string>} - A promise that resolves to the generated refresh token.
+ * @throws {Error} - If refresh token generation fails or an error occurs while saving the token to the database.
+ */
 async function generateRefreshToken(payload) {
   try {
     const refreshTokenPayload = {
