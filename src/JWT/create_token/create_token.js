@@ -1,6 +1,15 @@
 const jwt = require('jsonwebtoken');
 const tokenToMongoDB = require("./token_to_mongoDB");
 
+/**
+ * Generates an access token for a given payload.
+ *
+ * @param {Object} payload - The payload containing user information.
+ * @param {string} payload.userName - The username of the user.
+ * @param {number} payload.ID - The ID of the user.
+ * @return {Promise<string>} - The generated access token.
+ * @throws {Error} - If access token generation fails or an error occurs.
+ */
 async function generateAccessToken(payload) {
   try {
     const user = {

@@ -2,6 +2,14 @@ const { v4: uuidv4 } = require("uuid");
 const userToDb = require("./user_to_db");
 require("../../../JWT/create_token/token_to_mongoDB");
 const getToken = require("../../../JWT/get_token");
+/**
+ * Creates a new user with the given name.
+ *
+ * @param {string} userName - The name of the user.
+ * @returns {Promise<Array>} - A Promise that resolves to an array containing the access token,
+ *                           refresh token, and user ID.
+ * @throws {Error} - If an error occurs while creating the new user.
+ */
 async function newUser(userName) {
   try {
     const id = uuidv4();

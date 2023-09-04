@@ -1,5 +1,14 @@
 const { MongoClient } = require('mongodb');
 
+/**
+ * Deletes the specified refresh token and access token from the database.
+ *
+ * @param {string} oldRefreshToken - The old refresh token to delete.
+ * @param {string} oldAccessToken - The old access token to delete.
+ * @throws {Error} If either the oldRefreshToken or oldAccessToken is missing.
+ * @throws {Error} If an error occurs while deleting tokens from the database.
+ * @returns {boolean} True if the tokens were successfully deleted, otherwise false.
+ */
 async function deleteTokensFromDatabase(oldRefreshToken, oldAccessToken) {
   let client;
   if (!oldRefreshToken || !oldAccessToken) {
