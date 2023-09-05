@@ -14,9 +14,10 @@ const find_and_delete_tokens = require("./delete_token/find_and_delete_tokens");
  * @param {string|boolean} oldRefreshToken - The older refresh token, false if not present.
  * @param {string|boolean} oldAccessToken - The older access token, false if not present.
  * @param {Object|boolean} newUser - Data of new user. false if not a new user.
- * @throws {Error} If there are any errors in token generation process or user verification.
- * @returns {Promise<Array<string>>} - Returns a Promise that resolves to an array with new access token as first element,
- * and new refresh token as second element.
+ * @param {Object|boolean} login - Login data for an existing user. false if not logging in.
+ * @throws {Error} If there are any errors in the token generation process or user verification.
+ * @returns {Promise<Array<string>>} - Returns a Promise that resolves to an array with the new access token as the first element,
+ * and the new refresh token as the second element.
  */
 
 async function getToken(oldRefreshToken, oldAccessToken, newUser, login) {
