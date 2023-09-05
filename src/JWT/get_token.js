@@ -2,6 +2,7 @@ const { generateAccessToken, generateRefreshToken} = require('./create_token/cre
 const jwt = require('jsonwebtoken');
 const deleteTokensFromDatabase = require("./delete_token/delete_token");
 const checkUserExists = require("./SQL/IDIsValid");
+const find_and_delete_tokens = require("./delete_token/find_and_delete_tokens");
 
 /**
  * Asynchronously generates a new set of refresh and access tokens for a user.
@@ -18,18 +19,24 @@ const checkUserExists = require("./SQL/IDIsValid");
  * and new refresh token as second element.
  */
 
-async function getToken(oldRefreshToken, oldAccessToken, newUser) {
+async function getToken(oldRefreshToken, oldAccessToken, newUser, login) {
   try {
     let user;
 
     if (oldRefreshToken !== false && oldAccessToken !== false) {
       const refreshPayload = jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_SECRET);
       user = await checkUserExists(refreshPayload.id);
+      user = refreshPayload
       deleteTokensFromDatabase(oldRefreshToken, oldAccessToken);
     }
 
     if (newUser !== false) {
       user = newUser;
+    }
+
+    if (login !== false) {
+      user = login;
+      await find_and_delete_tokens(user.id);
     }
 
     const [newAccessToken, newRefreshToken] = await Promise.all([
