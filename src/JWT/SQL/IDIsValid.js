@@ -11,13 +11,13 @@ async function checkUserExists(privateId) {
     });
 
     if (user === null) {
-      throw new Error
+      throw new Error("User does not exist")
     } else {
       return true;
     }
 
   } catch (error) {
-    throw new Error("User does not exist");
+    throw new Error(error.message);
 
   } finally {
     prisma.$disconnect();
