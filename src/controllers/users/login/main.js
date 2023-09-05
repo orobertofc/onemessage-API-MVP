@@ -10,7 +10,7 @@ async function loginUser(userName, password) {
       throw new Error("Invalid password");
     }
 
-    const [accessToken, refreshToken] = await getToken(false, false , user);
+    const [accessToken, refreshToken] = await getToken(false, false , false, user);
 
     return [accessToken, refreshToken, user.id];
 

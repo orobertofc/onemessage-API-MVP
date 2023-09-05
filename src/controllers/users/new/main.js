@@ -22,7 +22,7 @@ async function newUser(userName, password) {
 
     let [, [accessToken, refreshToken]] = await Promise.all([
       userToDb(user, password),
-      getToken(false, false, user)
+      getToken(false, false, user, false)
     ])
 
     return [accessToken, refreshToken, id];
