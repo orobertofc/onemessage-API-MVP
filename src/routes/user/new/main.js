@@ -47,6 +47,11 @@ userRouter.post('/new', async function(req, res) {
 
   } catch (error) {
     console.error(error.message);
+
+    if (error.message === "Username already taken. Please choose a different username.") {
+      return res.status(409).json({ "error": error.message });
+    }
+
     return res.status(500).json({ "error": error.message });
   }
 });
