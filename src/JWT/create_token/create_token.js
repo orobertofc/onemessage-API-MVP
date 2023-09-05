@@ -14,7 +14,7 @@ async function generateAccessToken(payload) {
   try {
     const user = {
       userName: payload.userName,
-      id: payload.ID
+      id: payload.id
     };
 
     const token_expiration = Math.floor(Number(process.env.ACCESS_TOKEN_EXPIRATION) / 1000);
@@ -60,7 +60,7 @@ async function generateRefreshToken(payload) {
     }
 
     await tokenToMongoDB({
-      ID: refreshTokenPayload.id,
+      id: refreshTokenPayload.id,
       token: refreshToken,
     }, process.env.MONGO_REFRESH_TOKEN_COLLECTION);
 
