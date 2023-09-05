@@ -7,11 +7,6 @@ const {authCookieOptions, refreshCookieOptions} = require("../../COOKIE_SETTINGS
 userRouter.post("/login", async function(req, res) {
   try {
     const {userName, password} = req.body;
-
-    if (!userName || !password) {
-      return res.status(400).json({ "error": "Missing required fields" });
-    }
-
     const hashedPassword = await hash512(password);
 
     const [refreshToken, accessToken, id] = await loginUser(userName, hashedPassword);

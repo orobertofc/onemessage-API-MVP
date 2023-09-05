@@ -37,19 +37,7 @@ const {authCookieOptions, refreshCookieOptions} = require("../../COOKIE_SETTINGS
 userRouter.post('/new', async function(req, res) {
   try {
     const { userName, password } = req.body;
-
-    if (!userName || !password) {
-      return res.status(400).json({ "error": "Missing parameters" });
-    }
     const hashedPassword = await hash512(password);
-
-    if (userName.length < 3) {
-      return res.status(400).json({ "error": "user_name must be at least 3 characters long" });
-    }
-
-    if (userName.length > 20) {
-      return res.status(400).json({ "error": "user_name must be less than 20 characters long" });
-    }
 
     const [refreshToken, accessToken, id] = await new_user(userName, hashedPassword);
 
