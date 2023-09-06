@@ -14,6 +14,7 @@ const app = express();
 
 // CORS stuff
 const corsOptions = {
+  origin: '*',
   credentials: true
 }
 app.use(cors(corsOptions));
