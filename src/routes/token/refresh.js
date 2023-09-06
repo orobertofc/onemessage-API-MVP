@@ -1,5 +1,6 @@
+const refreshToken = require("../../JWT/refresh_token");
+const {authCookieOptions, refreshCookieOptions} = require("../COOKIE_SETTINGS/cookie_settings");
 const tokenRouter = require("express").Router();
-const getToken = require("../../JWT/get_token");
 
 /**
  * Express middleware handler for the POST '/refresh' route of the tokenRouter object.
@@ -18,15 +19,16 @@ const getToken = require("../../JWT/get_token");
 tokenRouter.post('/refresh', async function(req, res) {
   try {
     const oldRefreshToken = req.cookies.refreshToken;
-    const oldAccessToken = req.cookies.accessToken;
+
+    if (!oldRefreshToken) return res.status(401).json({error: "Missing refresh token"});
 
     const [newAccessToken, newRefreshToken] = await refreshToken(oldRefreshToken);
 
-    const tokens = await getToken(oldRefreshToken, oldAccessToken, false);
 
-    res.cookie('accessToken', tokens[0], {httpOnly: true});
-    res.cookie('refreshToken', tokens[1], {httpOnly: true});
-    res.sendStatus(200);
+    res.cookie('accessToken', newAccessToken, authCookieOptions);
+    res.cookie('refreshToken', newRefreshToken, refreshCookieOptions);
+    res.status(200).json({"message": "Token refreshed"});
+
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ "error": error.message });
