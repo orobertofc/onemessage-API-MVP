@@ -1,23 +1,30 @@
 const {MongoClient} = require('mongodb');
 
 
-async function find_and_delete_tokens(userId) {
+async function findAndDeleteTokens(userId) {
+  let client;
+
   try {
+    let databases = [process.env.MONGO_ACCESS_TOKEN_COLLECTION, process.env.MONGO_REFRESH_TOKEN_COLLECTION];
 
-  let databases = [process.env.MONGO_ACCESS_TOKEN_COLLECTION, process.env.MONGO_REFRESH_TOKEN_COLLECTION];
-
-  for (let i = 0; i < databases.length; i++) {
-    const client = new MongoClient(process.env.MONGODB);
+    client = new MongoClient(process.env.MONGODB);
     await client.connect();
+
+
     const databaseInstance = client.db(process.env.MONGO_DATABASE_NAME);
-    const collection = databaseInstance.collection(databases[i]);
-    await collection.deleteMany({userId: userId});
-    await client.close();
-  }
+    const collection1 = databaseInstance.collection(databases[0]);
+    await collection1.deleteMany({ id: userId });
+
+    const collection2 = databaseInstance.collection(databases[1]);
+    await collection2.deleteMany({ id: userId });
 
   } catch (error) {
+    console.error(`Failed to remove tokens due to error: ${error}`);
     throw new Error(error.message);
+
+  } finally {
+    await client.close();
   }
 }
 
-module.exports = find_and_delete_tokens;
+module.exports = findAndDeleteTokens;
