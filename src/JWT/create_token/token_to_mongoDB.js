@@ -1,6 +1,12 @@
 const {MongoClient} = require("mongodb");
 
 
+/**
+ * Saves a token object to MongoDB.
+ * @param {Object} tokenObject - The token object to be saved.
+ * @param {string} collection_name - The name of the collection in MongoDB where the token object will be saved.
+ * @return {Promise<void>} - A promise that resolves when the token object is successfully saved to MongoDB, or rejects with an error if there was a failure.
+ */
 async function tokenToMongoDB(tokenObject, collection_name) {
   let client
   try {

@@ -1,8 +1,17 @@
 const { v4: uuidv4 } = require("uuid");
-const userToDb = require("./user_to_db");
+const userToDb = require("./insert_user_in_db");
 require("../../../JWT/create_token/token_to_mongoDB");
-const getToken = require("../../../JWT/get_token");
-async function newUser(userName) {
+const createToken = require("../../../JWT/create_token");
+/**
+ * Creates a new user with the given name.
+ *
+ * @param {string} userName - The name of the user.
+ * @param {string} password - The password of the user.
+ * @returns {Promise<Array>} - A Promise that resolves to an array containing the access token,
+ *                           refresh token, and user ID.
+ * @throws {Error} - If an error occurs while creating the new user.
+ */
+async function newUser(userName, password) {
   try {
     const id = uuidv4();
 
@@ -12,8 +21,8 @@ async function newUser(userName) {
     };
 
     let [, [accessToken, refreshToken]] = await Promise.all([
-      userToDb(user),
-      getToken(false, false, user)
+      userToDb(user, password),
+      createToken(user),
     ])
 
     return [accessToken, refreshToken, id];

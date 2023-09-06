@@ -1,6 +1,6 @@
-const { PrismaClient } = require('@prisma/client');
+const {PrismaClient} = require("@prisma/client");
 
-async function checkUserExists(id) {
+async function getUserById(id) {
   const prisma = new PrismaClient();
   try {
 
@@ -13,7 +13,7 @@ async function checkUserExists(id) {
     if (user === null) {
       throw new Error("User does not exist")
     } else {
-      return true;
+      return user
     }
 
   } catch (error) {
@@ -24,4 +24,4 @@ async function checkUserExists(id) {
   }
 }
 
-module.exports = checkUserExists;
+module.exports = getUserById;
