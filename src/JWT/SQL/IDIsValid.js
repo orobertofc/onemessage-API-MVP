@@ -1,12 +1,12 @@
 const { PrismaClient } = require('@prisma/client');
 
-async function checkUserExists(privateId) {
+async function checkUserExists(id) {
   const prisma = new PrismaClient();
   try {
 
     const user = await prisma.user.findUnique({
       where: {
-        private_id: privateId
+        id: id
       }
     });
 
