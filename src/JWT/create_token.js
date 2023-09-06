@@ -11,8 +11,8 @@ async function createToken(userObject) {
     await findAndDeleteTokens(userObject.id);
 
     const [accessToken, refreshToken] = await Promise.all([
-      generateAccessToken(userObject),
-      generateRefreshToken(userObject.id),
+      generateAccessToken(user),
+      generateRefreshToken(user.id),
     ]);
 
     return [accessToken, refreshToken];
