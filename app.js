@@ -12,7 +12,11 @@ const keepAliveRouter = require("./src/routes/keep alive/keep_alive.js");
 const app = express();
 
 //Cors config
-app.use(cors())
+const corsOptions = {
+  credentials: true,
+  origin: '*' 
+}
+app.use(cors(corsOptions));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
