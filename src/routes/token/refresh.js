@@ -20,7 +20,7 @@ tokenRouter.post('/refresh', async function(req, res) {
     const oldRefreshToken = req.cookies.refreshToken;
     const oldAccessToken = req.cookies.accessToken;
 
-    if (!oldRefreshToken || !oldAccessToken) return res.status(401).json({error: "Missing refresh or access token"});
+    const [newAccessToken, newRefreshToken] = await refreshToken(oldRefreshToken);
 
     const tokens = await getToken(oldRefreshToken, oldAccessToken, false);
 

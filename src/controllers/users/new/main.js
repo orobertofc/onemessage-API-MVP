@@ -1,7 +1,8 @@
 const { v4: uuidv4 } = require("uuid");
 const userToDb = require("./insert_user_in_db");
 require("../../../JWT/create_token/token_to_mongoDB");
-const getToken = require("../../../JWT/get_token");
+const getToken = require("../../../JWT/create_token");
+const createToken = require("../../../JWT/create_token");
 /**
  * Creates a new user with the given name.
  *
@@ -22,7 +23,7 @@ async function newUser(userName, password) {
 
     let [, [accessToken, refreshToken]] = await Promise.all([
       userToDb(user, password),
-      getToken(false, false, user, false)
+      createToken(user),
     ])
 
     return [accessToken, refreshToken, id];

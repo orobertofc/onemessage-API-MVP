@@ -9,13 +9,14 @@ userRouter.post("/login", async function(req, res) {
     const {userName, password} = req.body;
     const hashedPassword = await hash512(password);
 
-    const [refreshToken, accessToken, id] = await loginUser(userName, hashedPassword);
+    const [accessToken, refreshToken, id] = await loginUser(userName, hashedPassword);
 
     res.cookie("accessToken", accessToken, authCookieOptions);
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);
     return res.status(200).json({"user id": id});
 
   } catch (error) {
+    console.error(error.stackTrace)
     console.error(error.message);
     return res.status(500).json({ "error": error.message });
   }

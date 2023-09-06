@@ -1,5 +1,6 @@
-const getToken = require("../../../JWT/get_token");
+const getToken = require("../../../JWT/create_token");
 const userFromDb = require("../login/get_user_from_db");
+const createToken = require("../../../JWT/create_token");
 
 
 async function loginUser(userName, password) {
@@ -10,7 +11,7 @@ async function loginUser(userName, password) {
       throw new Error("Invalid password");
     }
 
-    const [accessToken, refreshToken] = await getToken(false, false , false, user);
+    const [accessToken, refreshToken] = await createToken(user)
 
     return [accessToken, refreshToken, user.id];
 
