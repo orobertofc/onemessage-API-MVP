@@ -13,13 +13,11 @@ const app = express();
 
 
 // CORS stuff
-app.use(cors);
-app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
-  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.status(204).send(); // Respond with a 204 No Content status
-});
+const corsOptions = {
+  credentials: true
+}
+app.use(cors(corsOptions));
+
 
 
 
