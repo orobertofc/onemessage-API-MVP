@@ -2,12 +2,17 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors')
 const userRouter = require("./src/routes/user/router.js");
 // const messageRouter = require("./src/routes/messages/main.js");
 const tokenRouter = require("./src/routes/token/router");
 const keepAliveRouter = require("./src/routes/keep alive/keep_alive.js");
 
+
 const app = express();
+
+//Cors config
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
