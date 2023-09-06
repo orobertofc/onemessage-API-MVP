@@ -1,4 +1,3 @@
-const getToken = require("../../../JWT/create_token");
 const userFromDb = require("../login/get_user_from_db");
 const createToken = require("../../../JWT/create_token");
 

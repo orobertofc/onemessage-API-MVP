@@ -1,7 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 const userToDb = require("./insert_user_in_db");
 require("../../../JWT/create_token/token_to_mongoDB");
-const getToken = require("../../../JWT/create_token");
 const createToken = require("../../../JWT/create_token");
 /**
  * Creates a new user with the given name.
