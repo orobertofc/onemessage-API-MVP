@@ -6,31 +6,32 @@ const userRouter = require("./src/routes/user/router.js");
 // const messageRouter = require("./src/routes/messages/main.js");
 const tokenRouter = require("./src/routes/token/router");
 const keepAliveRouter = require("./src/routes/keep alive/keep_alive.js");
+const cors = require("cors");
 
 
 const app = express();
 
-function cors(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+
+// CORS stuff
+app.use(cors);
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
-}
+  res.status(204).send(); // Respond with a 204 No Content status
+});
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-app.use(cors);
-
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/keep_alive', keepAliveRouter);
-
 app.use('/token', tokenRouter);
-
 // app.use('/message/', messageRouter);
 app.use('/user', userRouter);
 
