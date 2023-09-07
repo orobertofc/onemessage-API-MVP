@@ -1,10 +1,13 @@
+const {MongoClient} = require("mongodb");
 const mongo = require('mongodb').MongoClient;
 
 async function checkAccessToken (token) {
   let client;
 
   try {
-    client = await mongo.connect(process.env.MONGO_URI);
+    client = new MongoClient(process.env.MONGODB);
+    await client.connect();
+
     const db = client.db(process.env.MONGO_DATABASE_NAME);
     const collection = db.collection(process.env.MONGO_ACCESS_TOKEN_COLLECTION);
 
