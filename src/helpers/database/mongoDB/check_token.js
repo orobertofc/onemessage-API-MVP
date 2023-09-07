@@ -1,7 +1,7 @@
 const {MongoClient} = require("mongodb");
 const mongo = require('mongodb').MongoClient;
 
-async function checkAccessToken (token) {
+async function checkAccessToken (accessToken) {
   let client;
 
   try {
@@ -11,7 +11,7 @@ async function checkAccessToken (token) {
     const db = client.db(process.env.MONGO_DATABASE_NAME);
     const collection = db.collection(process.env.MONGO_ACCESS_TOKEN_COLLECTION);
 
-    const token = await collection.findOne({token: token});
+    const token = await collection.findOne({token: accessToken});
 
     if (!token) {
       return false;
