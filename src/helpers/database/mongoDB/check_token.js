@@ -1,5 +1,4 @@
 const {MongoClient} = require("mongodb");
-const mongo = require('mongodb').MongoClient;
 
 async function checkAccessToken (accessToken) {
   let client;
