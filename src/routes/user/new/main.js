@@ -43,7 +43,7 @@ userRouter.post('/new', async function(req, res) {
 
     res.cookie("accessToken", accessToken, authCookieOptions);
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);
-    return res.status(200).json({"user id": id});
+    return res.status(200).json({"userID": id});
 
   } catch (error) {
     console.error(error.message);

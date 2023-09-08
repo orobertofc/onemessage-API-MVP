@@ -1,7 +1,6 @@
-const hash512 = require("../../helpers/hash512");
 const userRouter = require("express").Router();
 
-userRouter.use(function(req, res, next) {
+userRouter.use(async function(req, res, next) {
     const { userName, password } = req.body;
 
     if (!userName) {
