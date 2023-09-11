@@ -1,5 +1,7 @@
 import checkAccessToken from "../REST/helpers/database/mongoDB/check_token.js";
-import {decode} from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import {accessToken} from "../types/token_object";
+
 
 /**
  * Verifies the token provided in the socket handshake and disconnects the socket if the token is invalid or not provided.
@@ -10,23 +12,23 @@ import {decode} from "jsonwebtoken";
  */
 // @ts-ignore
 export default function (socket, next: function): void {
-  const token = socket.handshake.token || null;
+  const token: string = socket.handshake.token;
   if (!token) {
-    socket.disconnect();
+    next(new Error("Token not provided"));
   }
   try {
-    // @ts-ignore
-    decode(token, process.env.JWT_ACCESS_SECRET);
+
+    jwt.verify(token, process.env.JWT_ACCESS_SECRET);
     checkAccessToken(token).then(r => {
       if (r === false) {
-        socket.disconnect();
+        next(new Error("Invalid token"));
       }
+      next();
     });
+
   } catch (error) {
-    socket.disconnect();
-  } finally {
-    next();
-  }
+    next(new Error("An error occurred while verifying the token."))
+    }
 };
 
 
