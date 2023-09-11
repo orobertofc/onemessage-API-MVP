@@ -9,15 +9,17 @@ interface CookieOptions {
     expires: Date;
     httpOnly: boolean;
     secure: boolean;
-    SameSite: boolean;
+    sameSite: string;
 }
+
 
 
 const getCookieOptions = (expireTime: string): CookieOptions => ({
     expires: new Date(Date.now() + Number(expireTime)),
     httpOnly: true,
     secure: true,
-    SameSite: true
+    // @ts-ignore
+    sameSite: "strict"
 })
 
 export const authCookieOptions: CookieOptions = getCookieOptions(String(process.env.ACCESS_TOKEN_EXPIRATION));
