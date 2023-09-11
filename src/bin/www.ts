@@ -3,10 +3,10 @@
 /**
  * Module dependencies.
  */
-const app = require('../app.js');
-const debugLib = require('debug');
-const http = require('http');
-
+import app from '../app.js';
+import debugLib from 'debug';
+import http from 'http';
+import socketEvents from "../WEB_SOCKET/socket_router.js";
 const debug = debugLib('chat-room-api:server');
 
 /**
@@ -19,6 +19,8 @@ app.set('port', port);
  * Create HTTP server.
  */
 const server = http.createServer(app);
+socketEvents(server)
+
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -30,7 +32,7 @@ server.on('listening', onListening);
 /**
  * Normalize a port into a number, string, or false.
  */
-function normalizePort(val) {
+function normalizePort(val: string) {
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -49,7 +51,7 @@ function normalizePort(val) {
 /**
  * Event listener for HTTP server "error" event.
  */
-function onError(error) {
+function onError(error: { syscall: string; code: any; }) {
   if (error.syscall !== 'listen') {
     throw error;
   }
