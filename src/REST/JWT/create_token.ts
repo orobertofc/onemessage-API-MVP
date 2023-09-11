@@ -1,6 +1,6 @@
 import {generateAccessToken, generateRefreshToken} from './create_token/create_token.js';
 import findAndDeleteTokens from './delete_token/find_and_delete_tokens.js';
-import {userObject} from "../../interfaces/user_object";
+import {userObject} from "../../interfaces/user_object.js";
 
 /**
  * Creates access and refresh tokens for a given user.

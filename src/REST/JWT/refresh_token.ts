@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import createToken from "./create_token.js";
 import getUserById from "./SQL/get_user_by_id.js";
 import {accessToken} from "../../interfaces/token_object.js";
-import checkAccessToken from "../helpers/database/mongoDB/check_token";
+import checkAccessToken from "../helpers/database/mongoDB/check_token.js";
 
 
 /**
