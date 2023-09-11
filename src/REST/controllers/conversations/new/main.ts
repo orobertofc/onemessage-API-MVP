@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import checkUserValid from "../../../helpers/database/SQL/checkUser.js";
 import startConversation from "./new_conversation.js";
-import {accessToken} from "../../../../types/token_object.js";
+import {accessToken} from "../../../../interfaces/token_object.js";
 
 /**
  * Creates a new conversation between a sender and a receiver.

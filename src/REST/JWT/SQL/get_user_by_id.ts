@@ -1,5 +1,5 @@
 import {PrismaClient} from "@prisma/client";
-import {userObject} from "../../../types/user_object.js";
+import {userObject} from "../../../interfaces/user_object.js";
 
 /**
  * Retrieves a user from the database based on their ID.

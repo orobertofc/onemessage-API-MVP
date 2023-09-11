@@ -22,7 +22,6 @@ async function checkAccessToken (accessToken: string): Promise<boolean> {
     if (!token) {
       return false;
     }
-
     return true;
 
   } catch (error) {

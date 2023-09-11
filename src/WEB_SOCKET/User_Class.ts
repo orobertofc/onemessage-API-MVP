@@ -1,6 +1,6 @@
 import {PrismaClient} from '@prisma/client';
 import {decode} from 'jsonwebtoken';
-import {accessToken} from "../types/token_object.js";
+import {accessToken} from "../interfaces/token_object.js";
 
 const prisma = new PrismaClient();
 
@@ -13,7 +13,7 @@ class User {
 
   constructor(accessToken: accessToken) {
     // @ts-ignore
-    const token = decode(accessToken, process.env.JWT_ACCESS_SECRET);
+    const token = <accessToken> decode(accessToken, process.env.JWT_ACCESS_SECRET);
 
     this.userName = token.userName;
     this.id = token.id;

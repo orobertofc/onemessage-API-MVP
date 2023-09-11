@@ -17,10 +17,11 @@ async function newUser(userName: string, password: string): Promise<any[]> {
     const user = {
       name: userName,
       id,
+      password
     };
 
     const [, [accessToken, refreshToken]] = await Promise.all([
-      saveUserToDb(user, password),
+      saveUserToDb(user),
       createToken(user),
     ])
 

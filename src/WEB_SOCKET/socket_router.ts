@@ -12,8 +12,8 @@ function socketEvents(server: object) {
 
     // Error handler
     socket.on("connect_error", (err) => {
-      console.log(err instanceof Error); // true
-      console.log(err.message); // not authorized
+      console.log(err instanceof Error);
+      console.log(err.message);
       console.log(err.data);
     });
 

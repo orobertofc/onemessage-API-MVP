@@ -6,4 +6,3 @@ export interface accessToken {
 export interface refreshToken {
     id: string;
 }
-

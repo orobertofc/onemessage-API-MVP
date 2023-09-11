@@ -1,5 +1,5 @@
 import prisma from '@prisma/client';
-import {userObject} from "../../../../types/user_object.js";
+import {userObject} from "../../../../interfaces/user_object.js";
 
 /**
  * Retrieves a user object from the database based on the given username.
