@@ -7,7 +7,7 @@ import {MongoClient} from "mongodb";
  * @returns {Promise<boolean>} - A promise that resolves with a boolean indicating if the access token exists.
  * @throws {Error} - If an error occurs while checking the access token.
  */
-async function checkAccessToken (accessToken: any): Promise<boolean> {
+async function checkAccessToken (accessToken: string): Promise<boolean> {
   let client: MongoClient;
 
   try {
