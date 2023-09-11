@@ -1,8 +1,5 @@
 import { Server } from 'socket.io';
-import User from './User_Class.js';
 import middleware from './middleware.js';
-
-
 
 function socketEvents(server: object) {
   const io: Server = new Server(server);
@@ -19,6 +16,5 @@ function socketEvents(server: object) {
     });
   });
 }
-
 
 export default socketEvents;
