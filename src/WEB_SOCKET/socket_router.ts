@@ -9,19 +9,13 @@ function socketEvents(server: object) {
 
   io.use(middleware);
 
-  const userConnected: string[] = [];
 
-  io.on('connection', (client) => {
-    console.log(`Socket ${client.id} connected`);
-    userConnected.push(client.id);
+  io.on("connection", (socket) => {
+    console.log(`user ${socket.id} connected`)
 
-    console.log(userConnected);
-
-    // @ts-ignore
-    const user = new User(client.handshake.token);
-
-    client.on('start-conversation', async (data) => {
-      await user.startConversation(data.msg, data.destination);
+    // Listen for disconnect
+    socket.on("disconnect", () => {
+      console.log(`User ${socket.id} disconnected`);
     });
   });
 }
