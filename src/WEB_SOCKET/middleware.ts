@@ -1,8 +1,6 @@
 import checkAccessToken from "../REST/helpers/database/mongoDB/check_token.js";
 import jwt from "jsonwebtoken";
 
-
-
 /**
  * Verifies the token provided in the socket handshake and disconnects the socket if the token is invalid or not provided.
  *
@@ -13,6 +11,7 @@ import jwt from "jsonwebtoken";
 // @ts-ignore
 export default function (socket, next: function): void {
   const token: string = socket.handshake.token;
+
   if (!token) {
     next(new Error("Token not provided"));
   }

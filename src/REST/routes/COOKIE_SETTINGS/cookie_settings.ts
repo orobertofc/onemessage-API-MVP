@@ -9,7 +9,7 @@ interface CookieOptions {
     expires: Date;
     httpOnly: boolean;
     secure: boolean;
-    sameSite: string;
+    sameSite: any;
 }
 
 
@@ -18,7 +18,6 @@ const getCookieOptions = (expireTime: string): CookieOptions => ({
     expires: new Date(Date.now() + Number(expireTime)),
     httpOnly: true,
     secure: true,
-    // @ts-ignore
     sameSite: "strict"
 })
 

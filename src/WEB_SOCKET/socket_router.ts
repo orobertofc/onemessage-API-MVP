@@ -2,10 +2,9 @@ import { Server } from 'socket.io';
 import middleware from './middleware.js';
 
 function socketEvents(server: object) {
-  const io: Server = new Server(server);
+  const io: Server = new Server(server, {cors: { origin: "*"}});
 
   io.use(middleware);
-
 
   io.on("connection", (socket) => {
     console.log(`user ${socket.id} connected`)
