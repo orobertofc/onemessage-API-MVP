@@ -1,7 +1,7 @@
-const new_user = require("../../src/controllers/users/new/main");
+const new_user = require("../../src/REST/controllers/users/new/main");
 
 const { v4: uuidv4 } = require('uuid');
-const {generateAccessToken, generateRefreshToken} = require("../../src/JWT/create_token/create_token");
+const {generateAccessToken, generateRefreshToken} = require("../../src/REST/JWT/create_token/create_token");
 
 jest.mock('../../src/helpers/JWT/generate_new', () => ({
   generateAccessToken: jest.fn(),

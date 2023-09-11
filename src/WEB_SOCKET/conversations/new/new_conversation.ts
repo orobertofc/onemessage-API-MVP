@@ -1,4 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
+import {Message, PrismaClient} from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
  * @param {string} messageContent - content of the initial message
  * @returns {Promise<Message>} The newly created message
  */
-async function startConversation(senderId, receiverId, messageContent) {
+async function startConversation(senderId: string, receiverId: string, messageContent: string): Promise<Message> {
   try {
     // begin transaction
     const result = await prisma.$transaction([
@@ -35,12 +35,11 @@ async function startConversation(senderId, receiverId, messageContent) {
     ]);
 
     // link the new message to the new conversation
-    const message = await prisma.message.update({
-      where: { messageId: result[1].messageId },
-      data: { conversationId: result[0].conversationId },
+    return await prisma.message.update({
+      where: {messageId: result[1].messageId},
+      data: {conversationId: result[0].conversationId},
     });
 
-    return message;
   } catch (error) {
     console.error(error);
     throw error;
