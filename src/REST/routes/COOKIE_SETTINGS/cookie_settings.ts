@@ -16,8 +16,8 @@ interface CookieOptions {
 
 const getCookieOptions = (expireTime: string): CookieOptions => ({
     expires: new Date(Date.now() + Number(expireTime)),
-    httpOnly: true,
-    secure: true,
+    httpOnly: false,
+    secure: false,
     sameSite: "strict"
 })
 
