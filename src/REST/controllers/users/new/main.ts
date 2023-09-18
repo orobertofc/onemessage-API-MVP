@@ -1,6 +1,7 @@
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import saveUserToDb from "./insert_user_in_db.js";
 import createToken from "../../../JWT/create_token.js";
+
 /**
  * Creates a new user with the given name.
  *
@@ -17,16 +18,15 @@ async function newUser(userName: string, password: string): Promise<any[]> {
     const user = {
       name: userName,
       id,
-      password
+      password,
     };
 
     const [, [accessToken, refreshToken]] = await Promise.all([
       saveUserToDb(user),
       createToken(user),
-    ])
+    ]);
 
     return [accessToken, refreshToken, id];
-
   } catch (error) {
     throw new Error(error.message);
   }

@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken';
-import tokenToMongoDB from './token_to_mongoDB.js';
+import jwt from "jsonwebtoken";
+import tokenToMongoDB from "./token_to_mongoDB.js";
 
 /**
  * Generates an access token for a given payload.
@@ -10,26 +10,36 @@ import tokenToMongoDB from './token_to_mongoDB.js';
  * @return {Promise<string>} - The generated access token.
  * @throws {Error} - If access token generation fails or an error occurs.
  */
-export async function generateAccessToken(payload: { id: string; userName: string; }): Promise<string> {
+export async function generateAccessToken(payload: {
+  id: string;
+  userName: string;
+}): Promise<string> {
   try {
     const user = {
       userName: payload.userName,
-      id: payload.id
+      id: payload.id,
     };
 
-    const token_expiration = Math.floor(Number(process.env.ACCESS_TOKEN_EXPIRATION) / 1000);
+    const token_expiration = Math.floor(
+      Number(process.env.ACCESS_TOKEN_EXPIRATION) / 1000,
+    );
 
     const JWTAccessSecret = process.env.JWT_ACCESS_SECRET;
-    const accessToken = jwt.sign(user, JWTAccessSecret, { expiresIn: token_expiration });
+    const accessToken = jwt.sign(user, JWTAccessSecret, {
+      expiresIn: token_expiration,
+    });
 
     if (accessToken === undefined) {
       throw new Error("Access token generation failed");
     }
 
-    await tokenToMongoDB({
-      id: user.id,
-      token: accessToken,
-    }, process.env.MONGO_ACCESS_TOKEN_COLLECTION);
+    await tokenToMongoDB(
+      {
+        id: user.id,
+        token: accessToken,
+      },
+      process.env.MONGO_ACCESS_TOKEN_COLLECTION,
+    );
 
     return accessToken;
   } catch (error) {
@@ -47,26 +57,33 @@ export async function generateAccessToken(payload: { id: string; userName: strin
 export async function generateRefreshToken(payload: string): Promise<string> {
   try {
     const refreshTokenPayload = {
-      id: payload
+      id: payload,
     };
 
-    const token_expiration = Math.floor(Number(process.env.REFRESH_TOKEN_EXPIRATION) / 1000);
+    const token_expiration = Math.floor(
+      Number(process.env.REFRESH_TOKEN_EXPIRATION) / 1000,
+    );
 
     const JWTRefreshSecret = process.env.JWT_REFRESH_SECRET;
-    const refreshToken = jwt.sign(refreshTokenPayload, JWTRefreshSecret, { expiresIn: token_expiration });
+    const refreshToken = jwt.sign(refreshTokenPayload, JWTRefreshSecret, {
+      expiresIn: token_expiration,
+    });
 
     if (refreshToken === undefined) {
       throw new Error("Refresh token generation failed");
     }
 
-    await tokenToMongoDB({
-      id: refreshTokenPayload.id,
-      token: refreshToken,
-    }, process.env.MONGO_REFRESH_TOKEN_COLLECTION);
+    await tokenToMongoDB(
+      {
+        id: refreshTokenPayload.id,
+        token: refreshToken,
+      },
+      process.env.MONGO_REFRESH_TOKEN_COLLECTION,
+    );
 
     return refreshToken;
   } catch (error) {
-      throw new Error(error.message);
+    throw new Error(error.message);
   }
 }
 

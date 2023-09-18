@@ -1,4 +1,4 @@
-import {PrismaClient} from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 /**
  * Saves a user object to the database.
@@ -10,7 +10,11 @@ import {PrismaClient} from '@prisma/client';
  * @throws {Error} If there is an error saving the user to the database.
  * @returns {Promise<void>} A Promise that resolves once the user has been saved to the database or rejects with an error.
  */
-async function saveUserToDb(user: { name: string; id: string, password: string }): Promise<void> {
+async function saveUserToDb(user: {
+  name: string;
+  id: string;
+  password: string;
+}): Promise<void> {
   const prisma = new PrismaClient();
   try {
     await prisma.user.create({
@@ -21,15 +25,14 @@ async function saveUserToDb(user: { name: string; id: string, password: string }
         lastSeen: new Date(),
       },
     });
-
   } catch (error) {
-    if(error.message.includes('Unique constraint failed on the fields')) {
-      throw new Error("Username already taken. Please choose a different username.")
-
+    if (error.message.includes("Unique constraint failed on the fields")) {
+      throw new Error(
+        "Username already taken. Please choose a different username.",
+      );
     } else {
-      throw new Error("Error saving user to database.")
+      throw new Error("Error saving user to database.");
     }
-
   } finally {
     prisma.$disconnect();
   }

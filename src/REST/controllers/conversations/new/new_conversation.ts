@@ -1,4 +1,4 @@
-import {PrismaClient} from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -10,7 +10,11 @@ const prisma = new PrismaClient();
  * @param {string} messageContent - content of the initial message
  * @returns {Promise<Message>} The newly created message
  */
-async function startConversation(senderId: string, receiverId: string, messageContent: string): Promise<object> {
+async function startConversation(
+  senderId: string,
+  receiverId: string,
+  messageContent: string,
+): Promise<object> {
   try {
     // begin transaction
     const result = await prisma.$transaction([

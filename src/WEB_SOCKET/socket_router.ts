@@ -1,13 +1,13 @@
-import { Server } from 'socket.io';
-import middleware from './middleware.js';
+import { Server } from "socket.io";
 
 function socketEvents(server: object) {
-  const io: Server = new Server(server, {cors: { origin: "*"}});
+  const io: Server = new Server(server, { cors: { origin: "*" } });
 
-  io.use(middleware);
+  // io.use(middleware);
 
   io.on("connection", (socket) => {
-    console.log(`user ${socket.id} connected`)
+    console.log(`user ${socket.id} connected`);
+    socket.emit("hello");
 
     // Error handler
     socket.on("connect_error", (err) => {

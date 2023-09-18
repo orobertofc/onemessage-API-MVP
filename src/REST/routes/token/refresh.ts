@@ -1,5 +1,8 @@
 import refreshToken from "../../JWT/refresh_token.js";
-import {authCookieOptions, refreshCookieOptions} from "../COOKIE_SETTINGS/cookie_settings.js"
+import {
+  authCookieOptions,
+  refreshCookieOptions,
+} from "../COOKIE_SETTINGS/cookie_settings.js";
 import { Router } from "express";
 
 const refreshTokenRouter = Router();
@@ -20,23 +23,23 @@ const refreshTokenRouter = Router();
  */
 
 // @ts-ignore
-refreshTokenRouter.post('/refresh', async function(req, res) {
+refreshTokenRouter.post("/refresh", async function (req, res) {
   try {
     const oldRefreshToken = req.cookies.refreshToken;
 
-    if (!oldRefreshToken) return res.status(401).json({error: "Missing refresh token"});
+    if (!oldRefreshToken)
+      return res.status(401).json({ error: "Missing refresh token" });
 
-    const [newAccessToken, newRefreshToken] = await refreshToken(oldRefreshToken);
+    const [newAccessToken, newRefreshToken] =
+      await refreshToken(oldRefreshToken);
 
-
-    res.cookie('accessToken', newAccessToken, authCookieOptions);
-    res.cookie('refreshToken', newRefreshToken, refreshCookieOptions);
-    res.status(200).json({"message": "Token refreshed"});
-
+    res.cookie("accessToken", newAccessToken, authCookieOptions);
+    res.cookie("refreshToken", newRefreshToken, refreshCookieOptions);
+    res.status(200).json({ message: "Token refreshed" });
   } catch (error) {
     console.error(error.message);
-    return res.status(500).json({ "error": error.message });
+    return res.status(500).json({ error: error.message });
   }
-})
+});
 
 export default refreshTokenRouter;

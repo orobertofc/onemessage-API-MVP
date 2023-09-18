@@ -6,20 +6,22 @@
  */
 
 interface CookieOptions {
-    expires: Date;
-    httpOnly: boolean;
-    secure: boolean;
-    sameSite: any;
+  expires: Date;
+  httpOnly: boolean;
+  secure: boolean;
+  sameSite: any;
 }
 
-
-
 const getCookieOptions = (expireTime: string): CookieOptions => ({
-    expires: new Date(Date.now() + Number(expireTime)),
-    httpOnly: false,
-    secure: false,
-    sameSite: "strict"
-})
+  expires: new Date(Date.now() + Number(expireTime)),
+  httpOnly: false,
+  secure: false,
+  sameSite: "strict",
+});
 
-export const authCookieOptions: CookieOptions = getCookieOptions(String(process.env.ACCESS_TOKEN_EXPIRATION));
-export const refreshCookieOptions: CookieOptions = getCookieOptions(String(process.env.REFRESH_TOKEN_EXPIRATION));
+export const authCookieOptions: CookieOptions = getCookieOptions(
+  String(process.env.ACCESS_TOKEN_EXPIRATION),
+);
+export const refreshCookieOptions: CookieOptions = getCookieOptions(
+  String(process.env.REFRESH_TOKEN_EXPIRATION),
+);

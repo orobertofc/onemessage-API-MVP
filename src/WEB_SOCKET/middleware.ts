@@ -16,18 +16,14 @@ export default function (socket, next: function): void {
     next(new Error("Token not provided"));
   }
   try {
-
     jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-    checkAccessToken(token).then(r => {
+    checkAccessToken(token).then((r) => {
       if (r === false) {
         next(new Error("Invalid token"));
       }
       next();
     });
-
   } catch (error) {
-    next(new Error("An error occurred while verifying the token."))
-    }
-};
-
-
+    next(new Error("An error occurred while verifying the token."));
+  }
+}

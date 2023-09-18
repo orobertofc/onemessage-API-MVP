@@ -1,9 +1,8 @@
 import jwt from "jsonwebtoken";
 import createToken from "./create_token.js";
 import getUserById from "./SQL/get_user_by_id.js";
-import {accessToken} from "../../interfaces/token_object.js";
+import { accessToken } from "../../interfaces/token_object.js";
 import checkAccessToken from "../helpers/database/mongoDB/check_token.js";
-
 
 /**
  * Refreshes the access token and refresh token for a user.
@@ -14,7 +13,7 @@ import checkAccessToken from "../helpers/database/mongoDB/check_token.js";
  */
 async function refreshToken(oldRefreshToken: string): Promise<[string, string]> {
   try {
-    const token = <accessToken> jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_SECRET)
+    const token = <accessToken>jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_SECRET);
 
     const user = await getUserById(token.id);
     if (!user) throw new Error("User does not exist");
@@ -24,7 +23,6 @@ async function refreshToken(oldRefreshToken: string): Promise<[string, string]> 
 
     const [newAccessToken, newRefreshToken] = await createToken(user);
     return [newAccessToken, newRefreshToken];
-
   } catch (error) {
     throw new Error(error.message);
   }

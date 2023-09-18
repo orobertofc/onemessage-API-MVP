@@ -1,18 +1,18 @@
-import {PrismaClient} from '@prisma/client';
-import {decode} from 'jsonwebtoken';
-import {accessToken} from "../interfaces/token_object.js";
+import { PrismaClient } from "@prisma/client";
+import { decode } from "jsonwebtoken";
+import { accessToken } from "../interfaces/token_object.js";
 
 const prisma = new PrismaClient();
 
 interface User {
-    userName: string;
-    id: string;
+  userName: string;
+  id: string;
 }
 
 class User {
-
   constructor(accessToken: accessToken) {
     // @ts-ignore
+    // prettier-ignore
     const token = <accessToken> decode(accessToken, process.env.JWT_ACCESS_SECRET);
 
     this.userName = token.userName;
@@ -45,10 +45,9 @@ class User {
 
       // link the new message to the new conversation
       await prisma.message.update({
-        where: {messageId: result[1].messageId},
-        data: {conversationId: result[0].conversationId},
+        where: { messageId: result[1].messageId },
+        data: { conversationId: result[0].conversationId },
       });
-
     } catch (error) {
       console.error(error);
       throw error;

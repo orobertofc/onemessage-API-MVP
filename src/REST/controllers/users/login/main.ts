@@ -10,7 +10,10 @@ import createToken from "../../../JWT/create_token.js";
  * containing the access token, refresh token, and user ID upon successful
  * login. Throws an error if the username or password is invalid.
  */
-async function loginUser(userName: string, password: string): Promise<[string, string, string]> {
+async function loginUser(
+  userName: string,
+  password: string,
+): Promise<[string, string, string]> {
   try {
     const user = await userFromDb(userName);
 
@@ -18,10 +21,9 @@ async function loginUser(userName: string, password: string): Promise<[string, s
       throw new Error("Invalid password");
     }
 
-    const [accessToken, refreshToken] = await createToken(user)
+    const [accessToken, refreshToken] = await createToken(user);
 
     return [accessToken, refreshToken, user.id];
-
   } catch (error) {
     throw new Error(error.message);
   }

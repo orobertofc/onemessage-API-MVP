@@ -1,4 +1,4 @@
-import {PrismaClient} from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 /**
  * This async function checks the validity of a user based on the given ID by fetching the user from a Prisma database.
@@ -27,16 +27,15 @@ async function checkUserValid(ID: string): Promise<boolean> {
   try {
     const user = await prisma.user.findUnique({
       where: {
-        id: ID
-      }
+        id: ID,
+      },
     });
 
     if (user === null) {
-      throw new Error("User does not exist")
+      throw new Error("User does not exist");
     }
 
     return true;
-
   } catch (error) {
     throw new Error(error.message);
   } finally {
