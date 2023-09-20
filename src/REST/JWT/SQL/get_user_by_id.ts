@@ -1,5 +1,5 @@
-import {PrismaClient} from "@prisma/client";
-import {userObject} from "../../../interfaces/user_object.js";
+import { PrismaClient } from "@prisma/client";
+import { userObject } from "../../../interfaces/user_object.js";
 
 /**
  * Retrieves a user from the database based on their ID.
@@ -11,22 +11,19 @@ import {userObject} from "../../../interfaces/user_object.js";
 async function getUserById(id: string): Promise<userObject> {
   const prisma = new PrismaClient();
   try {
-
     const user = await prisma.user.findUnique({
       where: {
-        id
-      }
+        id,
+      },
     });
 
     if (user === null) {
-      throw new Error("User does not exist")
+      throw new Error("User does not exist");
     } else {
-      return user
+      return user;
     }
-
   } catch (error) {
     throw new Error(error.message);
-
   } finally {
     prisma.$disconnect();
   }

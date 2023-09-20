@@ -11,9 +11,13 @@ import checkAccessToken from "../helpers/database/mongoDB/check_token.js";
  * @return {Promise<[string, string]>} - A Promise that resolves to an array containing the new access token and refresh token.
  * @throws {Error} - If an error occurs during the token refreshing process.
  */
-async function refreshToken(oldRefreshToken: string): Promise<[string, string]> {
+async function refreshToken(
+  oldRefreshToken: string,
+): Promise<[string, string]> {
   try {
-    const token = <accessToken>jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_SECRET);
+    const token = <accessToken>(
+      jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_SECRET)
+    );
 
     const user = await getUserById(token.id);
     if (!user) throw new Error("User does not exist");

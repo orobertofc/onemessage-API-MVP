@@ -1,4 +1,7 @@
-import { generateAccessToken, generateRefreshToken } from "./create_token/create_token.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "./create_token/create_token.js";
 import findAndDeleteTokens from "./delete_token/find_and_delete_tokens.js";
 import { userObject } from "../../interfaces/user_object.js";
 
@@ -18,7 +21,10 @@ async function createToken(userObject: userObject): Promise<[string, string]> {
 
     await findAndDeleteTokens(userObject.id);
 
-    const [accessToken, refreshToken] = await Promise.all([generateAccessToken(user), generateRefreshToken(user.id)]);
+    const [accessToken, refreshToken] = await Promise.all([
+      generateAccessToken(user),
+      generateRefreshToken(user.id),
+    ]);
 
     return [accessToken, refreshToken];
   } catch (error) {

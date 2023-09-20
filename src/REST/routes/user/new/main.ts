@@ -1,7 +1,10 @@
 import { Router } from "express";
 import new_user from "../../../controllers/users/new/main.js";
 import hash512 from "../../../helpers/hash512.js";
-import {authCookieOptions, refreshCookieOptions} from "../../COOKIE_SETTINGS/cookie_settings.js";
+import {
+  authCookieOptions,
+  refreshCookieOptions,
+} from "../../COOKIE_SETTINGS/cookie_settings.js";
 
 const newUserRouter = Router();
 /**
@@ -35,28 +38,33 @@ const newUserRouter = Router();
  * @throws {object} 500 - If any other error is encountered.
  * @returns {object} status 200 and { "user id": id } - user's id
  */
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-newUserRouter.post('/new', async function(req, res) {
+newUserRouter.post("/new", async function (req, res) {
   try {
     const { userName, password } = req.body;
     const hashedPassword = await hash512(password);
 
-    const [refreshToken, accessToken, id] = await new_user(userName, hashedPassword);
+    const [refreshToken, accessToken, id] = await new_user(
+      userName,
+      hashedPassword,
+    );
 
     res.cookie("accessToken", accessToken, authCookieOptions);
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);
-    return res.status(200).json({"userID": id});
-
+    return res.status(200).json({ userID: id });
   } catch (error) {
     console.error(error.message);
-    console.error(error.stack)
+    console.error(error.stack);
 
-    if (error.message === "Username already taken. Please choose a different username.") {
-      return res.status(409).json({ "error": error.message });
+    if (
+      error.message ===
+      "Username already taken. Please choose a different username."
+    ) {
+      return res.status(409).json({ error: error.message });
     }
 
-    return res.status(500).json({ "error": error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
