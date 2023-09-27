@@ -31,6 +31,6 @@ export default function (socket, next: function): void {
     });
   } catch (error) {
     console.log(error);
-    return next(new Error("An error occurred while verifying the token."));
+    return next(error);
   }
 }
