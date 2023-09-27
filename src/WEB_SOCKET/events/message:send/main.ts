@@ -1,7 +1,7 @@
 import pg, { QueryResult } from "pg";
 
 const connectionString: string = process.env.POSTGRES_URL;
-const ssl: boolean = process.env.POSTGRES_SSL === "true" || true;
+const ssl: boolean = process.env.POSTGRES_SSL === "true" || false;
 // @ts-ignore
 const pool = new pg.Pool({ connectionString, ssl });
 

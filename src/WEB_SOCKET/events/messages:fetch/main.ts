@@ -1,10 +1,4 @@
-import pg from "pg";
 import { PrismaClient } from "@prisma/client";
-
-const pool = new pg.Pool({
-  connectionString: process.env.POSTGRES_URL,
-  ssl: process.env.POSTGRES_SSL === "true" || true,
-});
 
 async function fetchMessages(userID: string): Promise<object> {
   console.log("fetch_messages event received");
