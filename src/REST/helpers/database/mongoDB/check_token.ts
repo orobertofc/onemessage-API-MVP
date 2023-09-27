@@ -24,7 +24,7 @@ async function checkAccessToken(accessToken: string): Promise<boolean> {
     }
     return true;
   } catch (error) {
-    throw new error(error.message);
+    throw new Error(error.message);
   } finally {
     await client.close();
   }

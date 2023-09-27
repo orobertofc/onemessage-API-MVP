@@ -33,4 +33,15 @@ app.use(function (req, res, next) {
     );
 });
 
+// error handler
+// @ts-ignore
+app.use(function (err, req, res, next) {
+  console.error(err.stack); // print stack trace to console
+
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+
+  res.status(404);
+});
+
 export default app;
