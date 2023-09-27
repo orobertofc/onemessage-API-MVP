@@ -23,6 +23,24 @@ function socketEvents(server: object) {
       }
     });
 
+    socket.on("message:fetch", () => {
+      const userID: string = socket.data.userID;
+
+      fetchMessages(userID)
+        .then((serializedJson) => {
+          // Emit the serialized JSON data to the socket
+          socket.emit("message:fetch:success", serializedJson);
+        })
+        .catch((error) => {
+          console.error(error);
+
+          socket.emit(
+            "message:fetch:error",
+            error.message || "An error occurred during message fetch.",
+          );
+        });
+    });
+
     // Error handler
     socket.on("connect_error", (err) => {
       console.log(err instanceof Error);
