@@ -1,9 +1,9 @@
 import pg, { QueryResult } from "pg";
 
 const connectionString: string = process.env.POSTGRES_URL;
-
+const ssl: boolean = process.env.POSTGRES_SSL === "true" || true;
 // @ts-ignore
-const pool = new pg.Pool({ connectionString, ssl = true });
+const pool = new pg.Pool({ connectionString, ssl });
 
 const client = await pool.connect();
 
@@ -30,7 +30,7 @@ async function createMessage(
     console.log("New message");
   } catch (error) {
     console.log(error);
-    throw new Error(error);
+    throw new Error(error.message);
   }
 }
 
@@ -46,8 +46,7 @@ async function createConversation(
     return result;
   } catch (error) {
     console.log(error);
-    // Do not make error handling logic, BullMQ needs the Error object to be thrown in order to retry the job
-    throw new Error(error);
+    throw new Error(error.message);
   }
 }
 
