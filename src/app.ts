@@ -24,24 +24,13 @@ app.use("/keep_alive", keepAliveRouter);
 app.use("/token", tokenRouter);
 app.use("/user", userRouter);
 
-// catch 404 and forward to error handler
+// 404 handler
 app.use(function (req, res, next) {
-  const err = new Error("Not Found");
-  // @ts-ignore
-  err.status = 404;
-  next(err);
-});
-
-// error handler
-// @ts-ignore
-app.use(function (err, req, res, next) {
-  console.error(err.stack); // print stack trace to console
-
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("ENV") === "dev" ? err : {};
-
-  res.status(404);
+  res
+    .status(404)
+    .send(
+      "Never gonna give you up, never gonna let you down.  YOU HAVE BEEN WARNED!",
+    );
 });
 
 export default app;
