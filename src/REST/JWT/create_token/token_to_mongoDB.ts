@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import mongoClient from "../../../mongoDB/mongoClient.js";
 
 /**
  * Saves a token object to MongoDB.
@@ -10,18 +10,12 @@ async function tokenToMongoDB(
   tokenObject: object,
   collection_name: string,
 ): Promise<void> {
-  let client: MongoClient;
   try {
-    client = new MongoClient(process.env.MONGODB);
-    await client.connect();
-
-    const databaseInstance = client.db(process.env.MONGO_DATABASE_NAME);
+    const databaseInstance = mongoClient.db(process.env.MONGO_DATABASE_NAME);
     const collection = databaseInstance.collection(collection_name);
     await collection.insertOne(tokenObject);
   } catch (error) {
     throw new Error("Error connecting to MongoDB");
-  } finally {
-    await client.close();
   }
 }
 

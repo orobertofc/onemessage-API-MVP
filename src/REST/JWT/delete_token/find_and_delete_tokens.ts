@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import mongoClient from "../../../mongoDB/mongoClient.js";
 
 /**
  * Finds and deletes tokens associated with a user.
@@ -9,18 +9,12 @@ import { MongoClient } from "mongodb";
  * @throws {Error} - If an error occurs while removing the tokens.
  */
 async function findAndDeleteTokens(userId: string): Promise<void> {
-  let client: MongoClient;
-
   try {
     const databases = [
       process.env.MONGO_ACCESS_TOKEN_COLLECTION,
       process.env.MONGO_REFRESH_TOKEN_COLLECTION,
     ];
-
-    client = new MongoClient(process.env.MONGODB);
-    await client.connect();
-
-    const databaseInstance = client.db(process.env.MONGO_DATABASE_NAME);
+    const databaseInstance = mongoClient.db(process.env.MONGO_DATABASE_NAME);
     const collection1 = databaseInstance.collection(databases[0]);
     await collection1.deleteMany({ id: userId });
 
@@ -29,8 +23,6 @@ async function findAndDeleteTokens(userId: string): Promise<void> {
   } catch (error) {
     console.error(`Failed to remove tokens due to error: ${error}`);
     throw new Error(error.message);
-  } finally {
-    await client.close();
   }
 }
 

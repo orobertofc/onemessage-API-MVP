@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import mongoClient from "../../../../mongoDB/mongoClient.js";
 
 /**
  * Checks if the provided access token exists in the MongoDB access token collection.
@@ -8,13 +8,8 @@ import { MongoClient } from "mongodb";
  * @throws {Error} - If an error occurs while checking the access token.
  */
 async function checkAccessToken(accessToken: string): Promise<boolean> {
-  let client: MongoClient;
-
   try {
-    client = new MongoClient(process.env.MONGODB);
-    await client.connect();
-
-    const db = client.db(process.env.MONGO_DATABASE_NAME);
+    const db = mongoClient.db(process.env.MONGO_DATABASE_NAME);
     const collection = db.collection(process.env.MONGO_ACCESS_TOKEN_COLLECTION);
 
     const token = await collection.findOne({ token: accessToken });
@@ -25,8 +20,6 @@ async function checkAccessToken(accessToken: string): Promise<boolean> {
     return true;
   } catch (error) {
     throw new Error(error.message);
-  } finally {
-    await client.close();
   }
 }
 
