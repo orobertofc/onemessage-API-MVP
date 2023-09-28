@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import prismaClient from "../../../../prisma/prismaClient.js";
 
 /**
  * Saves a user object to the database.
@@ -15,9 +15,8 @@ async function saveUserToDb(user: {
   id: string;
   password: string;
 }): Promise<void> {
-  const prisma = new PrismaClient();
   try {
-    await prisma.user.create({
+    await prismaClient.user.create({
       data: {
         name: user.name,
         id: user.id,
@@ -31,10 +30,9 @@ async function saveUserToDb(user: {
         "Username already taken. Please choose a different username.",
       );
     } else {
+      console.log(error);
       throw new Error("Error saving user to database.");
     }
-  } finally {
-    prisma.$disconnect();
   }
 }
 

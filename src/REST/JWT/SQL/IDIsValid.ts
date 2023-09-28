@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import prismaClient from "../../../prisma/prismaClient.js";
 
 /**
  * Checks if a user with the given ID exists in the database.
@@ -8,9 +8,8 @@ import { PrismaClient } from "@prisma/client";
  * @returns {Promise<boolean>} Returns true if the user exists, otherwise throws an error.
  */
 async function checkUserExists(id: string): Promise<boolean> {
-  const prisma = new PrismaClient();
   try {
-    const user = await prisma.user.findUnique({
+    const user = await prismaClient.user.findUnique({
       where: {
         id,
       },
@@ -23,8 +22,6 @@ async function checkUserExists(id: string): Promise<boolean> {
     }
   } catch (error) {
     throw new Error(error.message);
-  } finally {
-    prisma.$disconnect();
   }
 }
 

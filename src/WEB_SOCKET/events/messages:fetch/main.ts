@@ -1,12 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import prismaClient from "../../../prisma/prismaClient.js";
 
 async function fetchMessages(userID: string): Promise<object> {
   console.log("fetch_messages event received");
-  let prisma: PrismaClient;
   try {
-    prisma = new PrismaClient();
-
-    const user = await prisma.user.findUnique({
+    const user = await prismaClient.user.findUnique({
       where: {
         id: userID,
       },
@@ -61,10 +58,6 @@ async function fetchMessages(userID: string): Promise<object> {
   } catch (error) {
     console.log(error);
     throw new Error(error.message);
-  } finally {
-    if (prisma) {
-      await prisma.$disconnect();
-    }
   }
 }
 

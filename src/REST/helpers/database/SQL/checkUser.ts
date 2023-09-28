@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import prismaClient from "../../../../prisma/prismaClient.js";
 
 /**
  * This async function checks the validity of a user based on the given ID by fetching the user from a Prisma database.
@@ -22,10 +22,8 @@ import { PrismaClient } from "@prisma/client";
  * });
  */
 async function checkUserValid(ID: string): Promise<boolean> {
-  const prisma = new PrismaClient();
-
   try {
-    const user = await prisma.user.findUnique({
+    const user = await prismaClient.user.findUnique({
       where: {
         id: ID,
       },
@@ -38,8 +36,6 @@ async function checkUserValid(ID: string): Promise<boolean> {
     return true;
   } catch (error) {
     throw new Error(error.message);
-  } finally {
-    prisma.$disconnect();
   }
 }
 

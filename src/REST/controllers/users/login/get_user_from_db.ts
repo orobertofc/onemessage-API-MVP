@@ -1,5 +1,5 @@
-import prisma from "@prisma/client";
 import { userObject } from "../../../../interfaces/user_object.js";
+import prismaClient from "../../../../prisma/prismaClient.js";
 
 /**
  * Retrieves a user object from the database based on the given username.
@@ -9,19 +9,14 @@ import { userObject } from "../../../../interfaces/user_object.js";
  * @throws {Error} - User not found error if the user object is not found in the database.
  */
 async function userFromDb(userName: string): Promise<userObject> {
-  let client: prisma.PrismaClient;
   try {
-    client = new prisma.PrismaClient();
-
-    return await client.user.findUnique({
+    return await prismaClient.user.findUnique({
       where: {
         name: userName,
       },
     });
   } catch (error) {
     throw new Error("User not found");
-  } finally {
-    await client.$disconnect();
   }
 }
 
