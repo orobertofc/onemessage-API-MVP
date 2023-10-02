@@ -2,6 +2,7 @@ import prismaClient from "../../../prisma/prismaClient.js";
 
 async function fetchMessages(userID: string): Promise<object> {
   console.log("fetch_messages event received");
+  let userData;
   try {
     const user = await prismaClient.user.findUnique({
       where: {
@@ -25,14 +26,14 @@ async function fetchMessages(userID: string): Promise<object> {
       throw new Error("User not found");
     }
 
-    // Prepare the data to be sent to the socket
-    const userData = {
+    // Return the user data as an object(no need to serialize it, js does the shenanigans for us)
+    return (userData = {
       userName: user.name,
       id: user.id,
       conversations: [...user.conversations1, ...user.conversations2].map(
         (conversation) => {
-          // Extract message data from the conversation
-          const messages = conversation.messages.map((message) => ({
+          // Fuck prismaORM. Why don't you export the types like you do with everyone else's projects? Now i gotta :any this shit
+          const messages = conversation.messages.map((message: any) => ({
             messageId: message.messageId,
             content: message.content,
             timestamp: message.timestamp,
@@ -49,12 +50,7 @@ async function fetchMessages(userID: string): Promise<object> {
           };
         },
       ),
-    };
-
-    console.log(userData);
-
-    // Return the data as JSON
-    return userData;
+    });
   } catch (error) {
     console.log(error);
     throw new Error(error.message);
