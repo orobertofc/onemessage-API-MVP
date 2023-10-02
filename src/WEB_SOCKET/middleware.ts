@@ -3,14 +3,15 @@ import jwt from "jsonwebtoken";
 import { accessToken } from "../interfaces/token_object.js";
 
 /**
- * Verifies the token provided in the socket handshake and disconnects the socket if the token is invalid or not provided.
+ * Middleware function that verifies and extracts user information from a token attached to the socket handshake.
  *
- * @param {object} socket - The socket object received from the socket.io library.
- * @param {function} next - The callback function to be called after the token verification.
- * @returns {void} - This method does not return a value.
+ * @param {any} socket - The socket object representing the client connection.
+ * @param {function} next - The next function to call in the middleware chain.
+ * @returns {void}
+ * @throws {Error} - An error is thrown if the token is not provided, invalid, or if there is an error during verification.
  */
 // @ts-ignore
-export default function (socket, next: function): void {
+export default function (socket: any, next: function): void {
   const token: string = socket.handshake.headers.token;
 
   if (token === undefined) {
@@ -30,7 +31,7 @@ export default function (socket, next: function): void {
       return next();
     });
   } catch (error) {
-    console.log(error);
+    console.log("Middleware error: " + error.message);
     return next(error);
   }
 }
