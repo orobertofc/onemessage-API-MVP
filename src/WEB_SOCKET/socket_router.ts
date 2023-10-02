@@ -2,6 +2,8 @@ import { Server } from "socket.io";
 import createMessage from "./events/message:send/main.js";
 import middleware from "./middleware.js";
 import fetchMessages from "./events/messages:fetch/main.js";
+import { socketToRedis } from "../redis/functions.js";
+import { performAction } from "./events/action.js";
 
 function socketEvents(server: object) {
   const io: Server = new Server(server, { cors: { origin: "*" } });
@@ -9,8 +11,13 @@ function socketEvents(server: object) {
   io.use(middleware);
 
   io.on("connection", (socket) => {
-    console.log(`user ${socket.id} connected`);
-    socket.emit("hello");
+    console.log(`User ${socket.id} connected`);
+    performAction(
+      socket,
+      () => socketToRedis(socket.data.userID, socket.id),
+      "connection:success",
+      "connection:error",
+    ).then((r) => socket.disconnect());
 
     socket.on("message:send", ({ to, message }) => {
       try {
