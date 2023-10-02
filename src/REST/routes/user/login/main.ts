@@ -22,8 +22,12 @@ loginRouter.post("/login", async function (req, res) {
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);
     return res.status(200).json({ userID: id });
   } catch (error) {
-    console.error(error.stackTrace);
     console.error(error.message);
+
+    if (error.message === "Invalid password") {
+      return res.status(401).json({ error: error.message });
+    }
+
     return res.status(500).json({ error: error.message });
   }
 });
