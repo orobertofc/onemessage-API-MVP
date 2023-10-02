@@ -28,6 +28,12 @@ function socketEvents(server: object) {
         console.log(error.message);
         socket.emit("message:error", error);
       }
+      performAction(
+        socket,
+        () => createMessage(socket.data.userID, to, message),
+        "message:sent",
+        "message:error",
+      );
     });
 
     socket.on("message:fetch", () => {
