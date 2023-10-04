@@ -2,8 +2,7 @@ import { Server } from "socket.io";
 import createMessage from "./events/message:send/main.js";
 import middleware from "./middleware.js";
 import fetchMessages from "./events/messages:fetch/main.js";
-import { delete_socket } from "./events/disconnect/remove token from redis.js";
-import { socketToRedis } from "../redis/functions.js";
+import { deleteSocketFromRedis, socketToRedis } from "../redis/functions.js";
 import { performAction } from "./events/action.js";
 import { send_message_to_recipient } from "./events/message:send/send_message_to_recipient.js";
 
@@ -46,12 +45,12 @@ function socketEvents(server: object) {
 
     socket.on("connect_error", (err) => {
       console.log("Socket.io error: " + err.message);
-      delete_socket(socket.data.userID);
+      deleteSocketFromRedis(socket.data.userID);
     });
 
     socket.on("disconnect", () => {
       console.log(`User ${socket.id} disconnected`);
-      delete_socket(socket.data.userID);
+      deleteSocketFromRedis(socket.data.userID);
     });
   });
 }
