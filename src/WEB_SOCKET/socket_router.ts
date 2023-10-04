@@ -2,8 +2,10 @@ import { Server } from "socket.io";
 import createMessage from "./events/message:send/main.js";
 import middleware from "./middleware.js";
 import fetchMessages from "./events/messages:fetch/main.js";
+import { delete_socket } from "./events/disconnect/remove token from redis.js";
 import { socketToRedis } from "../redis/functions.js";
 import { performAction } from "./events/action.js";
+import { send_message_to_recipient } from "./events/message:send/send_message_to_recipient.js";
 
 function socketEvents(server: object) {
   const io: Server = new Server(server, { cors: { origin: "*" } });
