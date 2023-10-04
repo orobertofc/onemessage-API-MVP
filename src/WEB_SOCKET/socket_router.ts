@@ -37,16 +37,12 @@ function socketEvents(server: object) {
     });
 
     socket.on("message:fetch", () => {
-      const userID: string = socket.data.userID;
-
-      fetchMessages(userID)
+      fetchMessages(socket.data.userID)
         .then((serializedJson) => {
-          // Emit the serialized JSON data to the socket
           socket.emit("message:fetch:success", serializedJson);
         })
         .catch((error) => {
           console.error(error);
-
           socket.emit(
             "message:fetch:error",
             error.message || "An error occurred during message fetch.",
