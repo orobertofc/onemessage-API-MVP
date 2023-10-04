@@ -6,8 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/bin/www.js",
-    "test": "jest",
-    "watch": "tsc -w & node --watch dist/bin/www.js"
+    "test": "jest"
   },
   "engines": {
     "node": "~20.3.1",
