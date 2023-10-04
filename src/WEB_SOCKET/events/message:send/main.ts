@@ -20,15 +20,16 @@ async function createMessage(
         ],
       },
     });
+    let conversationID: number = conversation?.conversationId;
 
-    if (!conversation) {
-      await createConversation(sender, recipient);
+    if (!conversationID) {
+      conversationID = await createConversation(sender, recipient);
     }
 
     await prismaClient.message.create({
       data: {
         senderId: sender,
-        conversationId: conversation?.conversationId,
+        conversationId: conversationID,
         content: message,
         timestamp: new Date(),
       },
@@ -44,9 +45,9 @@ async function createMessage(
 async function createConversation(
   user1Id: string,
   user2Id: string,
-): Promise<void> {
+): Promise<number> {
   try {
-    await prismaClient.conversation.create({
+    const conversation = await prismaClient.conversation.create({
       data: {
         user1Id,
         user2Id,
@@ -54,6 +55,7 @@ async function createConversation(
       },
     });
     console.log("New conversation");
+    return conversation.conversationId;
   } catch (error) {
     console.log(error);
     throw new Error(error.message);
