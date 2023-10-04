@@ -3,7 +3,7 @@ export const performAction = async (
   action: Function,
   successEvent: string,
   errorEvent: string,
-) => {
+): Promise<void> => {
   try {
     await action();
     socket.emit(successEvent);
