@@ -53,7 +53,6 @@ async function createConversation(
         lastMessageAt: new Date(),
       },
     });
-
     console.log("New conversation");
   } catch (error) {
     console.log(error);

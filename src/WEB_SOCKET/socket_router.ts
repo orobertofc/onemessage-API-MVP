@@ -7,7 +7,6 @@ import { performAction } from "./events/action.js";
 
 function socketEvents(server: object) {
   const io: Server = new Server(server, { cors: { origin: "*" } });
-
   io.use(middleware);
 
   io.on("connection", (socket) => {
@@ -50,13 +49,11 @@ function socketEvents(server: object) {
         });
     });
 
-    // Error handler
     socket.on("connect_error", (err) => {
       console.log("Socket.io error: " + err.message);
       delete_socket(socket.data.userID);
     });
 
-    // Listen for disconnect
     socket.on("disconnect", () => {
       console.log(`User ${socket.id} disconnected`);
     });
