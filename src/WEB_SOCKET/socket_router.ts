@@ -19,14 +19,7 @@ function socketEvents(server: object) {
     ).catch(() => socket.disconnect());
 
     socket.on("message:send", ({ to, message }) => {
-      try {
-        createMessage(socket.data.userID, to, message).then((r) => {
-          socket.emit("message:sent");
-        });
-      } catch (error) {
-        console.log(error.message);
-        socket.emit("message:error", error);
-      }
+      send_message_to_recipient(socket, socket.data.userID, to, message);
       performAction(
         socket,
         () => createMessage(socket.data.userID, to, message),
