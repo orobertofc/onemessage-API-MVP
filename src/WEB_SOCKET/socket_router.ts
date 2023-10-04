@@ -56,9 +56,8 @@ function socketEvents(server: object) {
 
     // Error handler
     socket.on("connect_error", (err) => {
-      console.log(err instanceof Error);
-      console.log(err.message);
-      console.log(err.data);
+      console.log("Socket.io error: " + err.message);
+      delete_socket(socket.data.userID);
     });
 
     // Listen for disconnect
