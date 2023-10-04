@@ -51,6 +51,7 @@ function socketEvents(server: object) {
 
     socket.on("disconnect", () => {
       console.log(`User ${socket.id} disconnected`);
+      delete_socket(socket.data.userID);
     });
   });
 }
