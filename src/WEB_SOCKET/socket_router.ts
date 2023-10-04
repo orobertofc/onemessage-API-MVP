@@ -16,7 +16,7 @@ function socketEvents(server: object) {
       () => socketToRedis(socket.data.userID, socket.id),
       "connection:success",
       "connection:error",
-    ).then((r) => socket.disconnect());
+    ).catch(() => socket.disconnect());
 
     socket.on("message:send", ({ to, message }) => {
       try {
