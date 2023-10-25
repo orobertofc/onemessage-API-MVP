@@ -27,22 +27,13 @@ app.use("/user", userRouter);
 
 // 404 handler
 app.use(function (req, res, next) {
-  res
-    .status(404)
-    .send(
-      "Never gonna give you up, never gonna let you down.  YOU HAVE BEEN WARNED!",
-    );
+  res.status(404).send("URL does not exist");
 });
 
-// error handler
+// Error handler, keep as the last app.use and below the 404 handler
 // @ts-ignore
 app.use(function (err, req, res, next) {
-  console.error(err.stack); // print stack trace to console
-
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-
-  res.status(404);
+  res.status(500).send("Something went wrong");
 });
 
 export default app;
