@@ -9,7 +9,7 @@ export function socketEvents(httpServer: http.Server) {
   const io: Server = new Server(httpServer, { cors: { origin: "*" } });
   io.use(middleware);
 
-  io.on("connection", (socket) => {
+  io.on("connection", (socket: Socket) => {
     console.log(`User ${socket.id} connected`);
     performAction(
       socket,

@@ -9,7 +9,8 @@ import swaggerUi from "swagger-ui-express";
 
 const app: Express = express();
 
-// CORS stuff
+// CORS settings for the REST api
+// TODO: change to more restrictive settings before pushing to prod
 const corsOptions = {
   origin: true,
   credentials: true,
