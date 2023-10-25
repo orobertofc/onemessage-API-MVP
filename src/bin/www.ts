@@ -4,11 +4,8 @@
  * Module dependencies.
  */
 import app from "../app.js";
-import debugLib from "debug";
 import http from "http";
-import socketEvents from "../WEB_SOCKET/socket_router.js";
-
-const debug = debugLib("chat-room-api:server");
+import { socketEvents } from "../WEB_SOCKET/socket_router.js";
 
 /**
  * Get port from environment and store in Express.

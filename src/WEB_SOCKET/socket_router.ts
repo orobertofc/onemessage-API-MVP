@@ -1,10 +1,9 @@
-import { Server } from "socket.io";
-import createMessage from "./events/message:send/main.js";
-import middleware from "./middleware.js";
-import fetchMessages from "./events/messages:fetch/main.js";
-import { deleteSocketFromRedis, socketToRedis } from "../redis/functions.js";
-import { performAction } from "./events/action.js";
-import { send_message_to_recipient } from "./events/message:send/send_message_to_recipient.js";
+import { performAction } from "./action.js";
+import { middleware } from "./middleware.js";
+import { Server, Socket } from "socket.io";
+import { RedisController } from "../databases/redis/Redis_controller.js";
+import { Prisma_ws_controller } from "./Prisma_ws_controller.js";
+import http from "http";
 
 function socketEvents(server: object) {
   const io: Server = new Server(server, { cors: { origin: "*" } });
@@ -54,5 +53,3 @@ function socketEvents(server: object) {
     });
   });
 }
-
-export default socketEvents;

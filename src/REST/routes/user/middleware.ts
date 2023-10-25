@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-const userRouter = Router();
+export const userMiddleware = Router();
 
 // @ts-ignore
 userRouter.use(async function (req, res, next) {
@@ -40,5 +40,3 @@ userRouter.use(async function (req, res, next) {
 
   next();
 });
-
-export default userRouter;

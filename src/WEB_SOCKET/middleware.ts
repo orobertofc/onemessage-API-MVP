@@ -1,6 +1,8 @@
-import checkAccessToken from "../REST/helpers/database/mongoDB/check_token.js";
-import jwt from "jsonwebtoken";
 import { accessToken } from "../interfaces/token_object.js";
+import jwt from "jsonwebtoken";
+import { Socket } from "socket.io";
+import { Mongo_controller } from "../databases/mongoDB/Mongo_controller.js";
+import "dotenv/config";
 
 /**
  * Middleware function that verifies and extracts user information from a token attached to the socket handshake.

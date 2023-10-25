@@ -1,10 +1,11 @@
-import express from "express";
+import express, { Express } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
-import tokenRouter from "./REST/routes/token/router.js";
-import userRouter from "./REST/routes/user/router.js";
-import keepAliveRouter from "./REST/routes/keep alive/keep_alive.js";
+import { tokenRouter } from "./REST/routes/token/router.js";
+import { userRouter } from "./REST/routes/user/router.js";
+import { keepAliveRouter } from "./REST/routes/keep_alive/keep_alive.js";
+import swaggerUi from "swagger-ui-express";
 
 const app = express();
 

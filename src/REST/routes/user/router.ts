@@ -1,15 +1,13 @@
 import { Router } from "express";
-import middleware from "./middleware.js";
-import loginRouter from "./login/main.js";
-import newUserRouter from "./new/main.js";
+import { loginRouter } from "./login/main.js";
+import { newUserRouter } from "./new/main.js";
+import { userMiddleware } from "./middleware.js";
 
-const userRouter = Router();
+export const userRouter = Router();
 
 // Middleware - keep it on top always
-userRouter.use(middleware);
+userRouter.use(userMiddleware);
 
 // Routes
 userRouter.use(newUserRouter);
 userRouter.use(loginRouter);
-
-export default userRouter;

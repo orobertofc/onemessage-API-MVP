@@ -1,6 +1,4 @@
-import { Router } from "express";
-import new_user from "../../../controllers/users/new/main.js";
-import hash512 from "../../../helpers/hash512.js";
+import { Request, Response, Router } from "express";
 import {
   authCookieOptions,
   refreshCookieOptions,

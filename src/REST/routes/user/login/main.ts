@@ -1,10 +1,9 @@
-import { Router } from "express";
-import hash512 from "../../../helpers/hash512.js";
-import loginUser from "../../../controllers/users/login/main.js";
+import { Request, Response, Router } from "express";
 import {
   authCookieOptions,
   refreshCookieOptions,
 } from "../../COOKIE_SETTINGS/cookie_settings.js";
+import { User_controller } from "../../../controllers/User_controller.js";
 
 const loginRouter = Router();
 
