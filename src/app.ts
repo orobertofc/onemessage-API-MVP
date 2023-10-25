@@ -27,7 +27,19 @@ app.use("/keep_alive", keepAliveRouter);
 app.use("/token", tokenRouter);
 app.use("/user", userRouter);
 
-// 404 handler
+// Swagger UI
+app.use(
+  "/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(null, {
+    swaggerUrl: "../swagger.yaml",
+    swaggerOptions: {
+      validatorUrl: null,
+    },
+  }),
+);
+
+// 404 handler, keep this and the one below it always at the bottom
 app.use(function (req, res, next) {
   res.status(404).send("URL does not exist");
 });
