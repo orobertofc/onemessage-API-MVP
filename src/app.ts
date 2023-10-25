@@ -7,7 +7,7 @@ import { userRouter } from "./REST/routes/user/router.js";
 import { keepAliveRouter } from "./REST/routes/keep_alive/keep_alive.js";
 import swaggerUi from "swagger-ui-express";
 
-const app = express();
+const app: Express = express();
 
 // CORS stuff
 const corsOptions = {

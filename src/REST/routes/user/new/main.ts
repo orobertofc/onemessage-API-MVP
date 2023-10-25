@@ -42,6 +42,7 @@ newUserRouter.post("/new", async function (req, res) {
   try {
     const { userName, password } = req.body;
     const hashedPassword = await hash512(password);
+  async (req: Request, res: Response): Promise<Response> => {
 
     const [refreshToken, accessToken, id] = await new_user(
       userName,

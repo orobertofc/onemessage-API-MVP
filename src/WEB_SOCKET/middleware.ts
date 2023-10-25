@@ -15,6 +15,8 @@ import "dotenv/config";
 // @ts-ignore
 export default function (socket: any, next: function): void {
   const token: string = socket.handshake.headers.token;
+export function middleware(socket: Socket, next: Function): void {
+  const token = <string>socket.handshake.headers.token;
 
   if (token === undefined) {
     return next(new Error("Token not provided"));

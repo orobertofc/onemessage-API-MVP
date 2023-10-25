@@ -5,8 +5,8 @@ import { RedisController } from "../databases/redis/Redis_controller.js";
 import { Prisma_ws_controller } from "./Prisma_ws_controller.js";
 import http from "http";
 
-function socketEvents(server: object) {
-  const io: Server = new Server(server, { cors: { origin: "*" } });
+export function socketEvents(httpServer: http.Server) {
+  const io: Server = new Server(httpServer, { cors: { origin: "*" } });
   io.use(middleware);
 
   io.on("connection", (socket) => {

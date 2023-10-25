@@ -8,6 +8,7 @@ import { User_controller } from "../../../controllers/User_controller.js";
 const loginRouter = Router();
 
 loginRouter.post("/login", async function (req, res) {
+loginRouter.post("/login", async (req: Request, res: Response) => {
   try {
     const { userName, password } = req.body;
     const hashedPassword = await hash512(password);

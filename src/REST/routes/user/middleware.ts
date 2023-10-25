@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 
 export const userMiddleware = Router();
 
 // @ts-ignore
-userRouter.use(async function (req, res, next) {
+userMiddleware.use(async function (req: Request, res: Response, next) {
   const { userName, password } = req.body;
 
   if (!userName) {
