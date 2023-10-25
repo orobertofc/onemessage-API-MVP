@@ -6,6 +6,7 @@
 import app from "../app.js";
 import http from "http";
 import { socketEvents } from "../WEB_SOCKET/socket_router.js";
+import debug from "debug";
 
 /**
  * Get port from environment and store in Express.
@@ -80,5 +81,5 @@ function onError(error: { syscall: string; code: any }) {
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
-  console.log(`Listening on ${bind}`);
+  debug(`Listening on ${bind}`);
 }

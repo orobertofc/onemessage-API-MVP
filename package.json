@@ -5,13 +5,11 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "prestart": "tsc",
     "start": "node dist/bin/www.js",
     "test": "jest"
   },
   "engines": {
-    "node": "~20.3.1",
-    "npm": "~9.7.2"
+    "node": "~20.3.1"
   },
   "dependencies": {
     "@prisma/client": "^5.1.0",
