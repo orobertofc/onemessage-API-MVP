@@ -23,9 +23,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// REST routers
 app.use("/keep_alive", keepAliveRouter);
-app.use("/token", tokenRouter);
-app.use("/user", userRouter);
+app.use("/tokens", tokenRouter);
+app.use("/users", userRouter);
 
 // Swagger UI
 app.use(
