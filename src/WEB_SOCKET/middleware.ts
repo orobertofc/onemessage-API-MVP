@@ -4,17 +4,6 @@ import { Socket } from "socket.io";
 import { Mongo_controller } from "../databases/mongoDB/Mongo_controller.js";
 import "dotenv/config";
 
-/**
- * Middleware function that verifies and extracts user information from a token attached to the socket handshake.
- *
- * @param {any} socket - The socket object representing the client connection.
- * @param {function} next - The next function to call in the middleware chain.
- * @returns {void}
- * @throws {Error} - An error is thrown if the token is not provided, invalid, or if there is an error during verification.
- */
-// @ts-ignore
-export default function (socket: any, next: function): void {
-  const token: string = socket.handshake.headers.token;
 export function middleware(socket: Socket, next: Function): void {
   const token = <string>socket.handshake.headers.token;
 
