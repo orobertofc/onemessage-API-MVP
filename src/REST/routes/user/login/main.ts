@@ -40,8 +40,8 @@ export const loginRouter = Router();
 
 loginRouter.post("/login", async (req: Request, res: Response) => {
   try {
-    const { userName, password } = req.body;
-    const hashedPassword = await hash512(password);
+    const { userName, password }: { userName: string; password: string } =
+      req.body;
 
     const user = new User_controller(userName, password);
     const [accessToken, refreshToken, id]: [string, string, string] =
