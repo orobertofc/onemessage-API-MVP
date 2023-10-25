@@ -5,6 +5,8 @@
  * @returns {Object} - The options object for the cookie.
  */
 
+import "dotenv/config";
+
 interface CookieOptions {
   expires: Date;
   httpOnly: boolean;
