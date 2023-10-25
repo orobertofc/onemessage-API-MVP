@@ -22,7 +22,10 @@ export function socketEvents(httpServer: http.Server) {
     ).catch(() => socket.disconnect());
 
     socket.on("message:send", ({ to, message }) => {
-      send_message_to_recipient(socket, socket.data.userID, to, message);
+      if (to === undefined || message === undefined) {
+        socket.emit("message:error", "Invalid message or recipient");
+        return;
+      }
       performAction(
         socket,
         () => socketController.message_send(message, to),
@@ -41,7 +44,7 @@ export function socketEvents(httpServer: http.Server) {
           console.error(error);
           socket.emit(
             "message:fetch:error",
-            error.message || "An error occurred during message fetch.",
+            "An error occurred during message fetch.",
           );
         });
     });

@@ -49,16 +49,15 @@ loginRouter.post("/login", async (req: Request, res: Response) => {
 
     res.cookie("accessToken", accessToken, authCookieOptions);
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);
+
     return res.status(200).json({ userID: id });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error.message);
 
-    if (error.message === "Invalid password") {
+    if (error.message === "Wrong password") {
       return res.status(401).json({ error: error.message });
     }
 
-    return res.status(500).json({ error: error.message });
+    return res.status(500);
   }
 });
-
-export default loginRouter;
