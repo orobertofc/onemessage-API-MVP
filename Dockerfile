@@ -18,7 +18,7 @@ WORKDIR /usr/src/app
 COPY ./dist ./dist
 COPY package.json .
 COPY package-lock.json .
-COPY ./src/databases/prisma.schema.prisma ./dist/databases/prisma/schema.prisma
+COPY ./src/databases/prisma/schema.prisma ./dist/databases/prisma/schema.prisma
 
 # Install dependencies
 RUN npm install --omit=dev
