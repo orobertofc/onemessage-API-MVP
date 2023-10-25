@@ -43,10 +43,9 @@ loginRouter.post("/login", async (req: Request, res: Response) => {
     const { userName, password } = req.body;
     const hashedPassword = await hash512(password);
 
-    const [accessToken, refreshToken, id] = await loginUser(
-      userName,
-      hashedPassword,
-    );
+    const user = new User_controller(userName, password);
+    const [accessToken, refreshToken, id]: [string, string, string] =
+      await user.login();
 
     res.cookie("accessToken", accessToken, authCookieOptions);
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);

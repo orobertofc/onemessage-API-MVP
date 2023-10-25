@@ -14,7 +14,8 @@ export function middleware(socket: Socket, next: Function): void {
     const tokenInfo = <accessToken>(
       jwt.verify(token, process.env.JWT_ACCESS_SECRET)
     );
-    checkAccessToken(token).then((r) => {
+    const mongo = new Mongo_controller();
+    mongo.checkAccessToken(token).then((r) => {
       if (r === false) {
         next(new Error("Invalid token"));
       }

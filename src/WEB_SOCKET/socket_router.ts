@@ -11,9 +11,12 @@ export function socketEvents(httpServer: http.Server) {
 
   io.on("connection", (socket: Socket) => {
     console.log(`User ${socket.id} connected`);
+    const redis = new RedisController(socket.id, socket.data.userID);
+    const socketController = new Prisma_ws_controller(socket, redis);
+
     performAction(
       socket,
-      () => socketToRedis(socket.data.userID, socket.id),
+      () => redis.setSocket(),
       "connection:success",
       "connection:error",
     ).catch(() => socket.disconnect());
@@ -22,14 +25,15 @@ export function socketEvents(httpServer: http.Server) {
       send_message_to_recipient(socket, socket.data.userID, to, message);
       performAction(
         socket,
-        () => createMessage(socket.data.userID, to, message),
+        () => socketController.message_send(message, to),
         "message:sent",
         "message:error",
       );
     });
 
     socket.on("message:fetch", () => {
-      fetchMessages(socket.data.userID)
+      socketController
+        .message_fetch()
         .then((serializedJson) => {
           socket.emit("message:fetch:success", serializedJson);
         })
@@ -44,12 +48,12 @@ export function socketEvents(httpServer: http.Server) {
 
     socket.on("connect_error", (err) => {
       console.log("Socket.io error: " + err.message);
-      deleteSocketFromRedis(socket.data.userID);
+      redis.deleteSocket().then((r) => {});
     });
 
     socket.on("disconnect", () => {
       console.log(`User ${socket.id} disconnected`);
-      deleteSocketFromRedis(socket.data.userID);
+      redis.deleteSocket().then((r) => {});
     });
   });
 }

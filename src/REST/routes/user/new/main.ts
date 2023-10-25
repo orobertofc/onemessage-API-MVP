@@ -3,6 +3,7 @@ import {
   authCookieOptions,
   refreshCookieOptions,
 } from "../../COOKIE_SETTINGS/cookie_settings.js";
+import { User_controller } from "../../../controllers/User_controller.js";
 
 export const newUserRouter = Router();
 
@@ -13,10 +14,8 @@ newUserRouter.post(
       const { userName, password }: { userName: string; password: string } =
         req.body;
 
-    const [refreshToken, accessToken, id] = await new_user(
-      userName,
-      hashedPassword,
-    );
+      const user: User_controller = new User_controller(userName, password);
+      const [accessToken, refreshToken, id] = await user.new();
 
     res.cookie("accessToken", accessToken, authCookieOptions);
     res.cookie("refreshToken", refreshToken, refreshCookieOptions);
