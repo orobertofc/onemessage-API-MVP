@@ -5,7 +5,7 @@ import {
 } from "../../COOKIE_SETTINGS/cookie_settings.js";
 import { User_controller } from "../../../controllers/User_controller.js";
 
-const loginRouter = Router();
+export const loginRouter = Router();
 
 /**
  * @api {post} /login User Login

@@ -1,6 +1,6 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 
-const keepAliveRouter = Router();
+export const keepAliveRouter = Router();
 
 /**
  * This router is a simple GET endpoint at '/keep_alive' to check whether the server is alive or not.
@@ -20,5 +20,3 @@ keepAliveRouter.get("/", async function (req: Request, res: Response) {
     return res.status(500).json({ error: error.message });
   }
 });
-
-export default keepAliveRouter;
