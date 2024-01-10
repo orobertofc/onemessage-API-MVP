@@ -1,8 +1,6 @@
 import { Router } from "express";
-import refreshTokenRouter from "./refresh.js";
+import { refreshTokenRouter } from "./refresh.js";
 
-const tokenRouter = Router();
+export const tokenRouter = Router();
 
 tokenRouter.use(refreshTokenRouter);
-
-export default tokenRouter;

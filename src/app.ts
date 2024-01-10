@@ -1,54 +1,54 @@
-import express from 'express';
-import path from 'path';
-import cookieParser from 'cookie-parser';
-import logger from 'morgan';
+import express, { Express } from "express";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
 import cors from "cors";
-import tokenRouter from "./REST/routes/token/router.js";
-import userRouter from "./REST/routes/user/router.js";
-import keepAliveRouter from "./REST/routes/keep alive/keep_alive.js";
+import { tokenRouter } from "./REST/routes/token/router.js";
+import { userRouter } from "./REST/routes/user/router.js";
+import { keepAliveRouter } from "./REST/routes/keep_alive/keep_alive.js";
+import swaggerUi from "swagger-ui-express";
 
+const app: Express = express();
 
-const app = express();
-
-
-// CORS stuff
+// CORS settings for the REST api
+// TODO: change to more restrictive settings before pushing to prod
 const corsOptions = {
   origin: true,
-  credentials: true
-}
+  credentials: true,
+};
 app.use(cors(corsOptions));
 
-
-
-
-app.use(logger('dev'));
+// Utility middlewares
+app.use(logger("combined"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/keep_alive', keepAliveRouter);
-app.use('/token', tokenRouter);
-app.use('/user', userRouter);
+// REST routers
+app.use("/keep_alive", keepAliveRouter);
+app.use("/tokens", tokenRouter);
+app.use("/users", userRouter);
 
+// Swagger UI
+app.use(
+  "/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(null, {
+    swaggerUrl: "../swagger.yaml",
+    swaggerOptions: {
+      validatorUrl: null,
+    },
+  }),
+);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  const err = new Error('Not Found');
-  // @ts-ignore
-  err.status = 404;
-  next(err);
+// 404 handler, keep this and the one below it always at the bottom
+app.use(function (req, res, next) {
+  res.status(404).send("URL does not exist");
 });
 
-// error handler
+// Error handler, keep as the last app.use and below the 404 handler
 // @ts-ignore
-app.use(function(err, req, res, next) {
-  console.error(err.stack); // print stack trace to console
-
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('ENV') === 'dev' ? err : {};
-
-  res.status(404);
+app.use(function (err, req, res, next) {
+  res.status(500).send("Something went wrong");
 });
 
 export default app;

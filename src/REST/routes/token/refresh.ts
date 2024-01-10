@@ -1,42 +1,28 @@
-import refreshToken from "../../JWT/refresh_token.js";
-import {authCookieOptions, refreshCookieOptions} from "../COOKIE_SETTINGS/cookie_settings.js"
-import { Router } from "express";
+import {
+  authCookieOptions,
+  refreshCookieOptions,
+} from "../COOKIE_SETTINGS/cookie_settings.js";
+import { Request, Response, Router } from "express";
+import { Token_controller } from "../../controllers/Token_controller.js";
+import { refreshToken } from "../../../interfaces/token_object.js";
 
-const refreshTokenRouter = Router();
+export const refreshTokenRouter = Router();
 
-/**
- * Express middleware handler for the POST '/refresh' route of the tokenRouter object.
- * It refreshes the access and refresh tokens. If any of these tokens are missing, it will respond with an error message
- * and a 401 HTTP status. In case of any exception occurred in the process, it will response with
- * the error message and a 500 HTTP status.
- *
- * @async
- * @function
- * @param {Object} req - Express request object which should contain the old `refreshToken` and `accessToken` in the cookies.
- * @param {Object} res - Express response object used to send the response to the client.
- * @returns {Promise} Response object with status 200 on success else
- * Response object with status 401 on "Missing refresh or access token" or
- * Response object with status 500 on any error during processing.
- */
-
-// @ts-ignore
-refreshTokenRouter.post('/refresh', async function(req, res) {
+refreshTokenRouter.post("/refresh", async (req: Request, res: Response) => {
   try {
-    const oldRefreshToken = req.cookies.refreshToken;
+    const oldRefreshToken = <refreshToken>req.cookies.refreshToken;
 
-    if (!oldRefreshToken) return res.status(401).json({error: "Missing refresh token"});
+    if (!oldRefreshToken)
+      return res.status(401).json({ error: "Missing refresh token" });
 
-    const [newAccessToken, newRefreshToken] = await refreshToken(oldRefreshToken);
+    const [newAccessToken, newRefreshToken] =
+      await Token_controller.refresh(oldRefreshToken);
 
-
-    res.cookie('accessToken', newAccessToken, authCookieOptions);
-    res.cookie('refreshToken', newRefreshToken, refreshCookieOptions);
-    res.status(200).json({"message": "Token refreshed"});
-
+    res.cookie("accessToken", newAccessToken, authCookieOptions);
+    res.cookie("refreshToken", newRefreshToken, refreshCookieOptions);
+    res.status(201).json({ message: "Token refreshed" });
   } catch (error) {
     console.error(error.message);
-    return res.status(500).json({ "error": error.message });
+    return res.status(500);
   }
-})
-
-export default refreshTokenRouter;
+});
