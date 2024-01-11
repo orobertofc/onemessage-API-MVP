@@ -1,0 +1,50 @@
+services:
+  #  Main service
+  web:
+      build: .
+      ports:
+        - ${API_PORT}:${API_PORT}
+      env_file: .env
+      image:
+       onemessage-api
+      restart: "on-failure"
+      depends_on:
+        - mongodb
+        - redis
+        - postgres
+
+  mongodb:
+    image: mongo:6.0.13-rc0-jammy
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONOGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGO_DATABASE_NAME}
+    volumes:
+      - dbdata6:/data/db/
+    restart: "on-failure"
+
+  redis:
+    image: redis:alpine3.19
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    command: ["redis-server", "--bind", "redis", "--port", "6379"]
+    volumes:
+      - redis_data:/redis/data/onemessage
+    restart: "on-failure"
+
+  postgres:
+    image: postgres:15-bullseye
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/postgresql@15/data/onemessage
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - PGPORT=${PGPORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+    restart: "on-failure"
+
+volumes:
+  postgres_data:
+  redis_data:
+  dbdata6:

@@ -10,9 +10,12 @@ FROM node:${NODE_VERSION}-alpine
 
 # Use production node environment by default.
 ENV NODE_ENV production
-
-
 WORKDIR /usr/src/app
+
+COPY package*.json ./
+COPY ./dist ./dist
+COPY .env .
+COPY prisma ./prisma
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.npm to speed up subsequent builds.
@@ -23,17 +26,10 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=/root/.npm \
     npm ci --omit=dev
 
-# Run the application as a non-root user.
-USER node
-
-# Copy the rest of the source files into the image.
-COPY ./dist ./dist
-COPY package.json .
-COPY package-lock.json .
-COPY .env .
-
 # Expose the port that the application listens on.
-EXPOSE 3000
+EXPOSE ${API_PORT}
+
+RUN npx prisma generate --schema=./prisma/schema.prisma
 
 # Run the application.
 CMD npm start

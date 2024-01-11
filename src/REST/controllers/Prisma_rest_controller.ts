@@ -1,4 +1,4 @@
-import { connectPrisma } from "../../databases/prisma/connectPrisma.js";
+import { connectPrisma } from "../../../prisma/connectPrisma.js";
 import { userObject } from "../../interfaces/user_object.js";
 import { User } from "@prisma/client";
 

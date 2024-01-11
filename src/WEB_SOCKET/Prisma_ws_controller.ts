@@ -1,4 +1,4 @@
-import { connectPrisma } from "../databases/prisma/connectPrisma.js";
+import { connectPrisma } from "../../prisma/connectPrisma.js";
 import { Conversation } from "@prisma/client";
 import { RedisController } from "../databases/redis/Redis_controller.js";
 import { Socket } from "socket.io";
